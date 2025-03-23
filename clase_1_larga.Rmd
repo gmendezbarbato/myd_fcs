@@ -128,7 +128,7 @@ class: inverse, center, middle
 
 - **Programación y ¿Qué es R y Rstudio?**
 
-- **Consejos**
+- **Recursos del curso**
 
 - **Primeros pasos**
 
@@ -230,6 +230,102 @@ knitr::include_graphics("ima/gui_cli.png")
 --
 - **Colaboración:** La programación abre la puerta para una colaboración mucho más sencilla y eficiente. 
 
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-1.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-2.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-3.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-4.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-5.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-6.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-7.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+```{r, out.width = "700px"}
+knitr::include_graphics("ima/trabajo-tiempo-8.png")
+```
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
 
 ---
 
@@ -258,13 +354,52 @@ knitr::include_graphics("ima/rstudio.png")
 
 
 ---
+class: inverse, center, middle
+
+# Recursos del curso
+
+
+---
+
+## Recursos del curso
+
+<br/>
+<br/>
+
+**1. Materiales de clase**
+
+<br/>
+
+**2. Bibliografía**
+
+<br/>
+
+**3. Recursos complementarios**
+
+
+---
+
+## Materiales de clase
+
+**Cada clase**
+
+
+  - Presentación
+  - Código de la clase
+  - Ejercicio
+  - Solución del ejercicio
+
+---
+
 ## Bibliografía
 
+<br/>
 
 -	Llaudet, E., & Imai, K. (2022). *Data analysis for social science: A friendly and practical introduction.* Princeton University Press. Introducción.
   - [Enlace](https://eva.fcs.udelar.edu.uy/pluginfile.php/227512/mod_folder/content/0/3.%20Data%20Analysis%20for%20Social%20Science/Introducci%C3%B3n.%20Data%20Analysis%20for%20Social%20Science%20%28Elena%20Llaudet%2C%20Kosuke%20Imai%29.pdf)
   - [Enlace texto completo](https://eva.fcs.udelar.edu.uy/pluginfile.php/227512/mod_folder/content/0/3.%20Data%20Analysis%20for%20Social%20Science/Data%20Analysis%20for%20Social%20Science%20%28libro%20completo%20ingl%C3%A9s%29.pdf)
 
+<br/>
 
 -	Wickham, H., Çetinkaya-Rundel, M., & Grolemund, G. (2023). *R for data science.* O'Reilly Media, Inc. 
   - [Enlace inglés](https://r4ds.had.co.nz/) 
@@ -464,6 +599,51 @@ knitr::include_graphics("ima/consola_standard.png")
 
 - .bold[Gráficos (y más):] Imprime los gráficos. En el mismo panel figuran otras pestañas como "Help" que sirve para buscar ayuda.
 
+--
+
+### Ahora ingresen/descarguen la carpeta de eva Codigo Clase 1 y abran el archivo codigo_1_2025.R 
+
+---
+
+
+## Lenguaje básico de R
+
+
+- En R el signo **>** (prompt) indica que el interprete está pronto para recibir órdenes.
+
+- Si luego de dar una orden en lugar de aparecer nuevamente el prompt aparece el signo de **+** indica que hay una orden incompleta.
+
+- Para salir de ese ciclo, debe escapar con **Esc**
+
+- Para ejecutar una línea de código pueden usar el botón de "Run" arriba a la derecha o -más cómodo- `ctrl + enter`
+
+- Errores y Warnings:
+  - Leerlos, entenderlos y solucionarlos es una de las mejores maneras de aprender (usar los foros!)
+  - Que no aparezcan no quiere decir que lo que hicimos sea correcto.
+  
+
+---
+
+## Lenguaje básico de R
+
+### R como calculadora 
+
+Para empezar, R sirve como calculadora. Se pueden realizar operaciones matemáticas, por ejemplo:
+
+.codefont[
+```{r ej5x, echo = TRUE}
+# Operaciones sencillas
+2 + 2  
+20 - 10
+10 / 2
+10 * 10
+```
+]
+
+--
+
+- [**Operadores en R**](https://gmendezbarbato.github.io/myd2024/documentos-markdown/operadores.html)
+
 ---
 
 ## Scripts 
@@ -476,11 +656,7 @@ knitr::include_graphics("ima/consola_standard.png")
 
 - Haciendo click luego en el script guardado se inicia R Studio. 
 
-- Para ejecutar una línea de código pueden usar el botón de "Run" arriba a la derecha o -más cómodo- `ctrl + enter`
 
---
-
-### Ahora ingresen/descarguen la carpeta de eva Codigo Clase 1 y abran el archivo codigo_1.R 
 
 ---
 
@@ -533,28 +709,28 @@ knitr::include_graphics("ima/ima_mean.jpeg")
 ---
 class: inverse, center, middle
 
-# Lenguaje básico de R
+# Objetos
 
 ---
 
-## R como calculadora 
+## Objetos en R
 
-Para empezar, R sirve como calculadora. Se pueden realizar operaciones matemáticas, por ejemplo:
+<br/>
 
-.codefont[
-```{r ej5x, echo = TRUE}
-# Operaciones sencillas
-2 + 2  
-20 - 10
-10 / 2
-10 * 10
-```
-]
+> “To understand computations in R, two slogans are helpful:
+> Everything that exists is an object.
+> Everything that happens is a function call."
 
---
+— John Chambers
 
-- [**Operadores en R**](https://gmendezbarbato.github.io/myd2024/documentos-markdown/operadores.html)
+<br/>
+<br/>
 
+> Para comprender la programación en R, dos lemas son útiles:
+> Todo lo que existe es un objeto.
+> Todo lo que sucede es una llamada a una función.
+
+— John Chambers
 ---
 
 ## Objetos en R
@@ -562,19 +738,21 @@ En muchos programas estadísticos solemos solamente "imprimir" resultados (lo qu
 
 ```{r ej5, echo = TRUE}
 # Una operación sencilla:
-17*17*7 # Se imprime el resultado
+5*9*45 # Se imprime el resultado
 ```
 
-Sin embargo, en R también podemos almacenar los resultados en objetos. Creamos los objetos mediante asignaciones (`<-`). En este caso, guardemos el valor (a diferencia de imprimirlo). 
+En R  podemos almacenar los resultados en objetos, creados mediante asignaciones (`<-`). En este caso, guardemos el valor y luego lo imprimimos. 
 
 ```{r ej5b, echo = TRUE}
-anio <- 17*17*7 # Se crea un objeto
+anio <- 5*9*45 # Se crea un objeto
+
+anio # Se imprime el objeto creado
 ```
 
 Si a esto lo ponemos entre paréntesis combinamos ambos enfoques: se guarda el objeto y se imprime el resultado
 
 ```{r ej5z, echo = TRUE}
-(anio <- 17*17*7) # Se crea un objeto y se imprime
+(anio <- 5*9*45) # Se crea un objeto y se imprime
 ```
 ---
 
@@ -586,7 +764,7 @@ Si a esto lo ponemos entre paréntesis combinamos ambos enfoques: se guarda el o
 
 .codefont[
 ```{r ej5c, echo = TRUE}
-anio <- 17*17*7 # Se crea un objeto
+anio <- 5*9*45 # Se crea un objeto
 
 anio # Imprime el objeto anio
 
@@ -608,10 +786,7 @@ rm(list=ls()) # Borra todos los objetos del ambiente
 help(ls) # Buscar ayuda sobre una función
 ```
 
----
-class: inverse, center, middle
-
-# Objetos 
+ 
 
 ---
 
@@ -629,7 +804,7 @@ class: inverse, center, middle
 
 El tipo de un objeto refiere a cuál es el tipo de los datos dentro del objeto. Los tipos más comunes son:
  
-```{r t1, echo = FALSE, results="hide"}
+```{r t1, echo = FALSE, results="hide", warning=FALSE}
 Nombre <- c("integer", "double", "character", "logical")
 Tipos <- c("Númerico: valores enteros", "Númerico: valores reales", "Texto", "Lógico (TRUE or FALSE)")
 Ejemplo <- c(10, 10.5, '"Diez"', TRUE)
@@ -687,7 +862,7 @@ R tiene funciones que nos permiten identificar la clase, el tipo, la estructura 
 
 - `attributes()` - ¿Tiene metadatos?
 
-- `str()` (paquete `utils`) - ¿CUál es la estructura interna del objeto?
+- `str()` (paquete `utils`) - ¿Cuál es la estructura interna del objeto?
 
 ---
 
@@ -726,6 +901,28 @@ obj_1 <- as.numeric(obj_1)
 typeof(obj_1)
 is.numeric(obj_1) # Podemos verificarlo directamente también
 ```
+
+
+---
+
+## ¿Por qué importan los tipos y clases? 
+Cuidado, el intérprete (R), no sabe nuestro idioma, no es una herramienta conversacional (no es chatgpt)
+
+.codefontmaschico[
+```{r ej7b32bis, echo = TRUE, error=TRUE}
+obj_1 <- "diez"
+
+typeof(obj_1)
+
+obj_1 <- as.numeric(obj_1)
+typeof(obj_1)
+is.numeric(obj_1) # Podemos verificarlo directamente también
+obj_1
+```
+]
+
+- *¿Qué pasó acá?*
+R tratará de dar una respuesta, lo que hizo fue coercionar a un vector númerico, pero "diez" no es un número, entonces el dato es un NA
 
 ---
 class: inverse, center, middle

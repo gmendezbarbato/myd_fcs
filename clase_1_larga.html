@@ -128,7 +128,7 @@ class: inverse, center, middle
 
 - **Programación y ¿Qué es R y Rstudio?**
 
-- **Consejos**
+- **Recursos del curso**
 
 - **Primeros pasos**
 
@@ -226,6 +226,86 @@ Los softwares o paquetes estadísticos son programas informáticos diseñado par
 --
 - **Colaboración:** La programación abre la puerta para una colaboración mucho más sencilla y eficiente. 
 
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-1.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-2.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-3.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-4.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-5.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-6.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-7.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
+
+---
+
+## ¿Por qué programar?
+
+.center[
+&lt;img src="ima/trabajo-tiempo-8.png" width="700px" /&gt;
+]
+
+.left[.small-text[Fuente: http://www.mclibre.org]]
 
 ---
 
@@ -250,13 +330,52 @@ Los softwares o paquetes estadísticos son programas informáticos diseñado par
 
 
 ---
+class: inverse, center, middle
+
+# Recursos del curso
+
+
+---
+
+## Recursos del curso
+
+&lt;br/&gt;
+&lt;br/&gt;
+
+**1. Materiales de clase**
+
+&lt;br/&gt;
+
+**2. Bibliografía**
+
+&lt;br/&gt;
+
+**3. Recursos complementarios**
+
+
+---
+
+## Materiales de clase
+
+**Cada clase**
+
+
+  - Presentación
+  - Código de la clase
+  - Ejercicio
+  - Solución del ejercicio
+
+---
+
 ## Bibliografía
 
+&lt;br/&gt;
 
 -	Llaudet, E., &amp; Imai, K. (2022). *Data analysis for social science: A friendly and practical introduction.* Princeton University Press. Introducción.
   - [Enlace](https://eva.fcs.udelar.edu.uy/pluginfile.php/227512/mod_folder/content/0/3.%20Data%20Analysis%20for%20Social%20Science/Introducci%C3%B3n.%20Data%20Analysis%20for%20Social%20Science%20%28Elena%20Llaudet%2C%20Kosuke%20Imai%29.pdf)
   - [Enlace texto completo](https://eva.fcs.udelar.edu.uy/pluginfile.php/227512/mod_folder/content/0/3.%20Data%20Analysis%20for%20Social%20Science/Data%20Analysis%20for%20Social%20Science%20%28libro%20completo%20ingl%C3%A9s%29.pdf)
 
+&lt;br/&gt;
 
 -	Wickham, H., Çetinkaya-Rundel, M., &amp; Grolemund, G. (2023). *R for data science.* O'Reilly Media, Inc. 
   - [Enlace inglés](https://r4ds.had.co.nz/) 
@@ -454,6 +573,77 @@ class: inverse, center, middle
 
 - .bold[Gráficos (y más):] Imprime los gráficos. En el mismo panel figuran otras pestañas como "Help" que sirve para buscar ayuda.
 
+--
+
+### Ahora ingresen/descarguen la carpeta de eva Codigo Clase 1 y abran el archivo codigo_1_2025.R 
+
+---
+
+
+## Lenguaje básico de R
+
+
+- En R el signo **&gt;** (prompt) indica que el interprete está pronto para recibir órdenes.
+
+- Si luego de dar una orden en lugar de aparecer nuevamente el prompt aparece el signo de **+** indica que hay una orden incompleta.
+
+- Para salir de ese ciclo, debe escapar con **Esc**
+
+- Para ejecutar una línea de código pueden usar el botón de "Run" arriba a la derecha o -más cómodo- `ctrl + enter`
+
+- Errores y Warnings:
+  - Leerlos, entenderlos y solucionarlos es una de las mejores maneras de aprender (usar los foros!)
+  - Que no aparezcan no quiere decir que lo que hicimos sea correcto.
+  
+
+---
+
+## Lenguaje básico de R
+
+### R como calculadora 
+
+Para empezar, R sirve como calculadora. Se pueden realizar operaciones matemáticas, por ejemplo:
+
+.codefont[
+
+``` r
+# Operaciones sencillas
+2 + 2  
+```
+
+```
+## [1] 4
+```
+
+``` r
+20 - 10
+```
+
+```
+## [1] 10
+```
+
+``` r
+10 / 2
+```
+
+```
+## [1] 5
+```
+
+``` r
+10 * 10
+```
+
+```
+## [1] 100
+```
+]
+
+--
+
+- [**Operadores en R**](https://gmendezbarbato.github.io/myd2024/documentos-markdown/operadores.html)
+
 ---
 
 ## Scripts 
@@ -466,11 +656,7 @@ class: inverse, center, middle
 
 - Haciendo click luego en el script guardado se inicia R Studio. 
 
-- Para ejecutar una línea de código pueden usar el botón de "Run" arriba a la derecha o -más cómodo- `ctrl + enter`
 
---
-
-### Ahora ingresen/descarguen la carpeta de eva Codigo Clase 1 y abran el archivo codigo_1.R 
 
 ---
 
@@ -523,54 +709,28 @@ help(mean)
 ---
 class: inverse, center, middle
 
-# Lenguaje básico de R
+# Objetos
 
 ---
 
-## R como calculadora 
+## Objetos en R
 
-Para empezar, R sirve como calculadora. Se pueden realizar operaciones matemáticas, por ejemplo:
+&lt;br/&gt;
 
-.codefont[
+&gt; “To understand computations in R, two slogans are helpful:
+&gt; Everything that exists is an object.
+&gt; Everything that happens is a function call."
 
-``` r
-# Operaciones sencillas
-2 + 2  
-```
+— John Chambers
 
-```
-## [1] 4
-```
+&lt;br/&gt;
+&lt;br/&gt;
 
-``` r
-20 - 10
-```
+&gt; Para comprender la programación en R, dos lemas son útiles:
+&gt; Todo lo que existe es un objeto.
+&gt; Todo lo que sucede es una llamada a una función.
 
-```
-## [1] 10
-```
-
-``` r
-10 / 2
-```
-
-```
-## [1] 5
-```
-
-``` r
-10 * 10
-```
-
-```
-## [1] 100
-```
-]
-
---
-
-- [**Operadores en R**](https://gmendezbarbato.github.io/myd2024/documentos-markdown/operadores.html)
-
+— John Chambers
 ---
 
 ## Objetos en R
@@ -579,29 +739,35 @@ En muchos programas estadísticos solemos solamente "imprimir" resultados (lo qu
 
 ``` r
 # Una operación sencilla:
-17*17*7 # Se imprime el resultado
+5*9*45 # Se imprime el resultado
 ```
 
 ```
-## [1] 2023
+## [1] 2025
 ```
 
-Sin embargo, en R también podemos almacenar los resultados en objetos. Creamos los objetos mediante asignaciones (`&lt;-`). En este caso, guardemos el valor (a diferencia de imprimirlo). 
+En R  podemos almacenar los resultados en objetos, creados mediante asignaciones (`&lt;-`). En este caso, guardemos el valor y luego lo imprimimos. 
 
 
 ``` r
-anio &lt;- 17*17*7 # Se crea un objeto
+anio &lt;- 5*9*45 # Se crea un objeto
+
+anio # Se imprime el objeto creado
+```
+
+```
+## [1] 2025
 ```
 
 Si a esto lo ponemos entre paréntesis combinamos ambos enfoques: se guarda el objeto y se imprime el resultado
 
 
 ``` r
-(anio &lt;- 17*17*7) # Se crea un objeto y se imprime
+(anio &lt;- 5*9*45) # Se crea un objeto y se imprime
 ```
 
 ```
-## [1] 2023
+## [1] 2025
 ```
 ---
 
@@ -614,13 +780,13 @@ Si a esto lo ponemos entre paréntesis combinamos ambos enfoques: se guarda el o
 .codefont[
 
 ``` r
-anio &lt;- 17*17*7 # Se crea un objeto
+anio &lt;- 5*9*45 # Se crea un objeto
 
 anio # Imprime el objeto anio
 ```
 
 ```
-## [1] 2023
+## [1] 2025
 ```
 
 ``` r
@@ -628,7 +794,7 @@ print(anio) # Imprime el objeto anio
 ```
 
 ```
-## [1] 2023
+## [1] 2025
 ```
 ]
 
@@ -647,10 +813,7 @@ rm(list=ls()) # Borra todos los objetos del ambiente
 help(ls) # Buscar ayuda sobre una función
 ```
 
----
-class: inverse, center, middle
-
-# Objetos 
+ 
 
 ---
 
@@ -670,14 +833,7 @@ El tipo de un objeto refiere a cuál es el tipo de los datos dentro del objeto. 
  
 
  
-
-```
-## Warning in gzfile(file, mode): cannot open compressed file
-## 'C:/Users/User/AppData/Local/Temp/RtmpMloYq9\file4b986785558', probable reason
-## 'No such file or directory'
-```
-
-&lt;table class="table table-striped table-hover table-condensed" style="font-size: 20px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table table-striped table-hover table-condensed" style="font-size: 20px; color: black; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; Nombre &lt;/th&gt;
@@ -752,7 +908,7 @@ R tiene funciones que nos permiten identificar la clase, el tipo, la estructura 
 
 - `attributes()` - ¿Tiene metadatos?
 
-- `str()` (paquete `utils`) - ¿CUál es la estructura interna del objeto?
+- `str()` (paquete `utils`) - ¿Cuál es la estructura interna del objeto?
 
 ---
 
@@ -833,6 +989,60 @@ is.numeric(obj_1) # Podemos verificarlo directamente también
 ```
 ## [1] TRUE
 ```
+
+
+---
+
+## ¿Por qué importan los tipos y clases? 
+Cuidado, el intérprete (R), no sabe nuestro idioma, no es una herramienta conversacional (no es chatgpt)
+
+.codefontmaschico[
+
+``` r
+obj_1 &lt;- "diez"
+
+typeof(obj_1)
+```
+
+```
+## [1] "character"
+```
+
+``` r
+obj_1 &lt;- as.numeric(obj_1)
+```
+
+```
+## Warning: NAs introducidos por coerción
+```
+
+``` r
+typeof(obj_1)
+```
+
+```
+## [1] "double"
+```
+
+``` r
+is.numeric(obj_1) # Podemos verificarlo directamente también
+```
+
+```
+## [1] TRUE
+```
+
+``` r
+obj_1
+```
+
+```
+## [1] NA
+```
+]
+
+- *¿Qué pasó acá?*
+R tratará de dar una respuesta, lo que hizo fue coercionar a un vector númerico, pero "diez" no es un número, entonces el dato es un NA
 
 ---
 class: inverse, center, middle
