@@ -1,0 +1,143 @@
+/* Fondo oscuro y texto blanco para toda la presentación */
+body, .remark-slide-content, .remark-slide {
+    background-color: #2C2C2C;  /* Fondo oscuro */
+    color: #FFFFFF;  /* Texto blanco */
+    font-family: Arial, sans-serif;  /* Fuente sin serifa */
+    padding: 10px;  /* Añadir algo de espacio alrededor del contenido */
+}
+
+/* Cabeceras de las diapositivas - Títulos más pequeños y cerca del límite superior */
+.title-slide h1, .title-slide h2, .title-slide h3, .title-slide h4 {
+    color: #FFFFFF;  /* Texto blanco en las cabeceras */
+    font-weight: normal;
+    font-family: Arial, sans-serif;  /* Fuente sin serifa */
+    margin-top: 0;  /* Quitar margen superior */
+    padding-top: 2px;  /* Espacio adicional desde el borde superior */
+}
+
+.title-slide h1 {
+    font-size: 2em;  /* Título principal más pequeño */
+}
+
+.title-slide h2 {
+    font-size: 1.75em;  /* Subtítulos ligeramente más pequeños */
+}
+
+.title-slide h3 {
+    font-size: 1.5em;  /* Títulos de nivel 3 aún más pequeños */
+}
+
+.title-slide h4 {
+    font-size: 1.25em;  /* Títulos de nivel 4 más pequeños */
+}
+
+/* Enlaces de texto más visible */
+a, a > code {
+    color: #FFF;  /* Color dorado para los enlaces */
+    text-decoration: none;
+}
+
+/* Resaltado de código con fondo oscuro y texto claro */
+.remark-code, .remark-inline-code {
+    background-color: #444444;  /* Fondo gris oscuro para el código */
+    color: #FFFFFF;  /* Texto blanco en el código */
+    font-size: 90%;
+}
+
+/* Fondo oscuro en las cajas de contenido */
+.content-box, .content-box-blue, .content-box-gray, .content-box-grey,
+.content-box-army, .content-box-green, .content-box-purple, .content-box-red, .content-box-yellow {
+    color: #FFFFFF;  /* Texto blanco en las cajas */
+    font-family: Arial, sans-serif;  /* Fuente sin serifa */
+    padding: 20px;
+    margin: 10px 0;  /* Agregar margen entre cajas */
+    border-radius: 10px;
+}
+
+/* Esquemas de color para las cajas de contenido */
+.content-box-blue { background-color: #1C1C1C; }
+.content-box-gray { background-color: #333333; }
+.content-box-grey { background-color: #444444; }
+.content-box-army { background-color: #4B4B4B; }
+.content-box-green { background-color: #2A2A2A; }
+.content-box-purple { background-color: #3B3B3B; }
+.content-box-red { background-color: #5C5C5C; }
+.content-box-yellow { background-color: #6A6A6A; }
+
+/* Cabeceras de las diapositivas inversas */
+.inverse h1 {
+    color: #FFFFFF;
+    font-weight: normal;
+    font-family: Arial, sans-serif;  /* Fuente sin serifa */
+}
+
+/* Código con fondo gris oscuro y texto blanco */
+.codefont pre, .codefontchico pre, .codefontmaschico pre {
+    color: #FFFFFF;  /* Texto blanco */
+    background-color: #333333;  /* Fondo gris oscuro */
+    font-family: Arial, sans-serif;  /* Fuente sin serifa */
+}
+
+.codefont pre {
+    font-size: 18px;
+    line-height: 16px;
+}
+
+.codefontchico pre {
+    font-size: 16px;
+    line-height: 13px;
+}
+
+.codefontmaschico pre {
+    font-size: 12px;
+    line-height: 9px;
+}
+
+/* Mejorar la visibilidad del texto pequeño */
+.small-text {
+    font-size: 1.1em;  /* Texto ligeramente más grande */
+    color: #FFFFFF;  /* Texto blanco */
+}
+
+/* Mejorar la visibilidad de los enlaces al pasar el mouse */
+a:hover {
+    color: #FFFF00;  /* Amarillo brillante al pasar el ratón */
+}
+
+/* Mejorar la legibilidad del texto */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    color: #FFFFFF;  /* Blanco para los encabezados */
+    font-family: Arial, sans-serif;  /* Fuente sin serifa */
+}
+
+p, ul, ol {
+    font-family: Arial, sans-serif;  /* Fuente sin serifa */
+}
+/* Personalización de las diapositivas */
+.remark-slide-content {
+    line-height: 1;
+    font-size: 1em;
+    overflow-wrap: break-word;  /* Asegura que el texto largo no se desborde */
+    word-wrap: break-word;  /* Asegura que las palabras largas se ajusten */
+}
+
+/* Ajustar las diapositivas en pantallas más grandes */
+.remark-slide {
+    padding: 10px;  /* Aumenta el padding para dar más espacio al texto */
+    box-sizing: border-box;
+}
+
+/* Resaltar las líneas del código de manera más clara */
+.remark-code {
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* Mejorar la visibilidad del contenido de las cajas */
+.content-box {
+    font-size: 1.1em;  /* Aumentar el tamaño de texto dentro de las cajas */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);  /* Añadir sombra para un poco más de contraste */
+}
