@@ -112,7 +112,7 @@ head(desempleo_uru, 4)
 
 ## Crear una carpeta
 
-En la computadora en la que estés trabajando debes crear una carpeta (dentro de la carpeta que prefieras o en el escritorio), con las siguientes carpetas dentro:
+En la computadora en la que estés trabajando debes crear una carpeta de nombre **myd_2025** (dentro de la carpeta que prefieras o en el escritorio), con las siguientes carpetas dentro:
 
 - **data** Descargar de EVA la carpeta **Data** (está en la sección Introducción a R y RStudio, Materiales Clase 2) y pegar el contenido aquí.
 - **Scripts** Descargar los distintos scripts (archivos de código) del EVA y guardarlos en esta carpeta (código de la clase, ejercicios, soluciones, etc.)
@@ -128,7 +128,7 @@ Deberían ver en su carpeta algo así:
 
 .center[
 ```{r ej7_b, out.width = "1000px"}
-knitr::include_graphics("ima/carpeta_curso.png")
+knitr::include_graphics("ima/carpeta_curso2025.png")
 ```
 ]
 
@@ -138,13 +138,13 @@ knitr::include_graphics("ima/carpeta_curso.png")
 
 Al comienzo de cada script **deben** especificar el directorio donde está su carpeta del curso, de lo contrario los códigos les van a devolver errores. 
 
-En este caso, por ejemplo, creé la carpeta "carpeta_del_curso" dentro de una carpeta llamada "Medicion y diseño" dentro de "cursos". Para acceder al directorio completo vayan a donde esta su carpeta hagan click derecho en la carpeta, seleccionen "propiedades" y luego ahí bajo dirección pueden copiar el directorio.
+En este caso, por ejemplo, creé la carpeta "myd_2025" en el escritorio de mi PC. Para acceder al directorio completo vayan a donde esta su carpeta hagan click derecho en la carpeta, seleccionen "propiedades" y luego ahí bajo dirección pueden copiar el directorio.
 
 ```{r ejasdasda,  echo = TRUE, eval = FALSE}
-setwd("C:/Usuario/User/Desktop/myd2024/carpeta_del_curso") 
+setwd("C:/Usuario/User/Desktop/myd_2025") 
 ```
 
-De esta forma, por ejemplo, si queremos leer una base de datos llamada "datauru.xlsx" que está guardada en la carpeta data dentro de la carpeta laboratorio, simplemente tenemos que especificar la siguiente dirección (porque R ya lo va a buscar dentro de la carpeta laboratorio)
+De esta forma, por ejemplo, si queremos leer una base de datos llamada "datauru.xlsx" que está guardada en la carpeta **data** dentro de la carpeta **myd_2025**, simplemente tenemos que especificar la siguiente dirección (porque R ya lo va a buscar dentro de la carpeta **myd_2025**)
 
 ```{r ejasdasa,  echo = TRUE}
 datauru <- read_excel("data/datauru.xlsx") 
@@ -158,7 +158,7 @@ RStudio tiene una solución mucho más eficiente para fijar directorios de traba
 
 Los proyectos se guardan en una carpeta en un archivo .Rproj
 
-De manera simplificada, lo que hace es setear una carpeta. Por lo cual, al abrir ese archivo de proyecto, RStudio "sabe" que estamos trabajando en ese directorio y no tenemos que escirbir la ruta.
+De manera simplificada, lo que hace es setear una carpeta. Por lo cual, al abrir ese archivo de proyecto, RStudio "sabe" que estamos trabajando en ese directorio y no tenemos que escribir la ruta.
 
 Hay tres opciones al crear un proyecto:
 
@@ -189,9 +189,9 @@ El nombre del proyecto debe ser igual al nombre de la carpeta matriz que lo cont
 
 Ejemplo: 
 
-  - Carpeta: **carpeta_del_curso**
+  - Carpeta: **myd_2025**
   
-  - Archivo: **carpeta_del_curso.Rproj**
+  - Archivo: **myd_2025.Rproj**
   
   
 
