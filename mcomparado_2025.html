@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Medición y diseño de investigación</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="FCS-UdelaR - Fabricio Carneiro y Gustavo Méndez" />
+    <script src="libs/header-attrs-2.27/header-attrs.js"></script>
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="estilo.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Medición y diseño de investigación
+]
+.subtitle[
+## Laboratorio método comparado
+]
+.author[
+### FCS-UdelaR - Fabricio Carneiro y Gustavo Méndez
+]
+.date[
+### 25 junio 2025
+]
+
+---
+
+
+class: inverse, center, middle
+
+
+
+
+class: inverse, center, middle
+
+# Plan para hoy
+
+---
+
+## Plan para hoy
+
+
+&lt;br/&gt;
+
+
+**1. Ejemplos del texto de Pérez-Liñan (2010) en R**
+
+
+**2. Discusión del texto de Albala **
+
+
+**3. Ejercicios en R con paquetes SetMethods y QCA**
+
+&lt;br/&gt;
+
+---
+
+## Plan para hoy
+
+
+Consejo: Cree un proyecto y descargue dentro el contenido de la carpeta de eva **Laboratorio metodo comparado**
+
+El código de la presentación (livecoding) está en el script **lab_comparado_2025.R**
+
+El código de los ejercicios y solución está en los script **ejercicios_5.R** y **sol_ejercicios_5.R**
+
+Las bases de datos que utilizaremos son: **data_lab_comparado.xlsx** y **data_ej_comparado.xlsx** (ojo que tienen varias hojas, usar el argumento `which()` de **rio::import** para seleccionar la que corresponda)
+
+---
+
+class: inverse, center, middle
+
+# 1. Ejemplos del texto de Pérez-Liñan (2010) en R 
+
+---
+
+## Paquetes necesarios
+
+- [**SetMethods**](https://cran.r-project.org/web/packages/SetMethods/index.html)
+
+- [**QCA**](https://cran.r-project.org/web/packages/QCA/index.html)
+
+- **tidyverse** y **rio**
+
+&lt;br/&gt;
+
+Instalaciones necesarias:
+
+.codefont[
+
+``` r
+install.packages("SetMethods")
+install.packages("QCA")
+```
+]
+
+&lt;br/&gt;
+&lt;br/&gt;
+
+El livecoding de esta clase está en el script `lab_comparado_2025.R` disponible en eva Laboratorio Método comparado
+
+---
+
+## ¿Qué vamos a hacer?
+
+Reproducir en R los ejemplos que plantea Pérez-Liñan (2010):
+
+&lt;br/&gt;
+
+1. Método de la similitud (Tabla 1)
+
+2. Problemas de la tabla de similitud (Tabla 2)
+
+3. Método de la diferencia indirecta (Tabla 3)
+
+4. Análisis configuracional (Tabla 6)
+
+5. Minimización lógica
+
+
+---
+
+## 1. Método de la similitud (Tabla 1)
+
+
+.center[
+&lt;img src="ima/t1.png" width="1000px" /&gt;
+]
+
+---
+
+## 1. Método de la similitud (Tabla 1)
+
+.codefontmaschico[
+
+``` r
+library(rio)
+library(tidyverse)
+library(SetMethods)
+library(QCA)
+
+# importo la base
+data_1 &lt;- rio::import("ej_pl.xlsx", which = 1)
+
+# pongo la variable caso como nombre de filas, para que no la cuente como variable
+data_1 &lt;- data_1 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_1, data_1$Y, necessity = TRUE)
+
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_1 &lt;- as.data.frame(QCAfit(data_1, data_1$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_1) 
+
+# preparo data para análisis de suficiencia
+data_analisis_suf_1 &lt;- data_1 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X1)  # selecciono únicamente las variables Y y X1
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_1 &lt;- ifelse(nrow(data_analisis_suf_1) &gt; 0, print("No suficiente"), print("Suficiente"))
+```
+]
+
+--
+
+- Estructura de `ifelse()`: 
+
+.codefontchico[
+
+``` r
+ifelse(condicion, operación_si_TRUE, operación_si_FALSE)
+```
+]
+
+---
+
+## 1. Método de la similitud (Tabla 1)
+
+.codefontchico[
+
+``` r
+library(rio)
+library(tidyverse)
+library(SetMethods)
+library(QCA)
+
+# importo la base
+data_1 &lt;- rio::import("ej_pl.xlsx", which = 1)
+
+data_1
+```
+
+```
+##   caso Y X1 X2
+## 1    A 1  1  1
+## 2    B 1  1  1
+## 3    C 1  1  0
+## 4    D 1  1  0
+```
+
+``` r
+# pongo la variable caso como nombre de filas, para que no la cuente como variable
+data_1 &lt;- data_1 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+data_1
+```
+
+```
+##   Y X1 X2
+## A 1  1  1
+## B 1  1  1
+## C 1  1  0
+## D 1  1  0
+```
+]
+
+
+---
+
+## 1. Método de la similitud (Tabla 1)
+
+.codefontchico[
+
+``` r
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_1, data_1$Y, necessity = TRUE)
+```
+
+```
+##     Cons.Nec Cov.Nec RoN
+## Y        1.0       1 NaN
+## X1       1.0       1 NaN
+## X2       0.5       1   1
+## ~Y       0.0     NaN   1
+## ~X1      0.0     NaN   1
+## ~X2      0.5       1   1
+```
+
+``` r
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_1 &lt;- as.data.frame(QCAfit(data_1, data_1$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_1) 
+```
+
+```
+##    Cons.Nec
+## X1        1
+```
+]
+
+
+---
+
+## 1. Método de la similitud (Tabla 1)
+
+.codefontchico[
+
+``` r
+# preparo data para análisis de suficiencia
+data_analisis_suf_1 &lt;- data_1 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X1)  # selecciono únicamente las variables Y y X1
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_1 &lt;- ifelse(nrow(data_analisis_suf_1) &gt; 0, print("No suficiente"), print("Suficiente"))
+```
+
+```
+## [1] "Suficiente"
+```
+]
+
+&lt;br/&gt;
+&lt;br/&gt;
+
+--
+
+**¿Cuál es el problema?**
+
+
+
+---
+
+## 2. Problema Método de la similitud (Tabla 2)
+
+.center[
+&lt;img src="ima/t2.png" width="550px" height="400px" /&gt;
+]
+
+---
+
+## 2. Problema Método de la similitud (Tabla 2)
+
+.codefontmaschico[
+
+``` r
+# importo la base
+data_2 &lt;- rio::import("ej_pl.xlsx", which = 2)
+
+# pongo la variable caso como nombre de filas, para que no la cuente como variable
+data_2 &lt;- data_2 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# Pasos:
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_2, data_2$Y, necessity = TRUE)
+
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_2 &lt;- as.data.frame(QCAfit(data_2, data_2$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_2) 
+
+# preparo data para análisis de suficiencia
+data_analisis_suf_2 &lt;- data_2 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X1)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_2 &lt;- ifelse(nrow(data_analisis_suf_2) &gt; 0, print("No suficiente"), print("Suficiente"))
+```
+]
+
+---
+
+## 2. Problema Método de la similitud (Tabla 2)
+
+.codefontchico[
+
+``` r
+# importo la base
+data_2 &lt;- rio::import("ej_pl.xlsx", which = 2)
+
+data_2
+```
+
+```
+##   caso Y X1 X2
+## 1    A 1  1  1
+## 2    B 1  1  1
+## 3    C 1  1  0
+## 4    D 1  1  0
+## 5    E 0  1  0
+```
+
+``` r
+# pongo la variable caso como nombre de filas, para que no la cuente como variable
+data_2 &lt;- data_2 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+data_2
+```
+
+```
+##   Y X1 X2
+## A 1  1  1
+## B 1  1  1
+## C 1  1  0
+## D 1  1  0
+## E 0  1  0
+```
+]
+
+---
+
+## 2. Problema Método de la similitud (Tabla 2)
+
+.codefontchico[
+
+``` r
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# Pasos:
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_2, data_2$Y, necessity = TRUE)
+```
+
+```
+##     Cons.Nec Cov.Nec   RoN
+## Y        1.0   1.000 1.000
+## X1       1.0   0.800 0.000
+## X2       0.5   1.000 1.000
+## ~Y       0.0   0.000 0.800
+## ~X1      0.0     NaN 1.000
+## ~X2      0.5   0.667 0.667
+```
+
+``` r
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_2 &lt;- as.data.frame(QCAfit(data_2, data_2$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_2) 
+```
+
+```
+##    Cons.Nec
+## X1        1
+```
+]
+
+---
+
+## 2. Problema Método de la similitud (Tabla 2)
+
+.codefontchico[
+
+``` r
+# importo la base
+# preparo data para análisis de suficiencia
+data_analisis_suf_2 &lt;- data_2 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X1)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_2 &lt;- ifelse(nrow(data_analisis_suf_2) &gt; 0, print("No suficiente"), print("Suficiente"))
+```
+
+```
+## [1] "No suficiente"
+```
+]
+
+
+---
+
+## 3. Método de la diferencia indirecta (Tabla 3)
+
+.center[
+&lt;img src="ima/t3.png" width="556" /&gt;
+]
+
+
+---
+
+## 3. Método de la diferencia indirecta (Tabla 3)
+
+.codefontmaschico[
+
+``` r
+# importo la base
+data_3 &lt;- rio::import("ej_pl.xlsx", which = 3)
+
+# pongo la variable caso como nombre de filas, para que no la cuente como variable
+data_3 &lt;- data_3 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# Pasos:
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_3, data_3$Y, necessity = TRUE)
+
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_3 &lt;- as.data.frame(QCAfit(data_3, data_3$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_3) 
+
+# preparo data para análisis de suficiencia X1
+data_analisis_suf_3 &lt;- data_3 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X1)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_3 &lt;- ifelse(nrow(data_analisis_suf_3) &gt; 0, print("No suficiente"), print("Suficiente"))
+
+# preparo data para análisis de suficiencia no X3
+data_analisis_suf_3b &lt;- data_3 %&gt;% 
+  filter(X3 == 0) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X3)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_3b &lt;- ifelse(nrow(data_analisis_suf_3b) &gt; 0, print("No suficiente"), print("Suficiente"))
+
+# En resumen: por un lado, X1 y ~X3 (No X3) son condiciones necesarias; por otro, sólo ~X3 es suficiente. ¿?
+# Es necesario un análisis configuracional
+```
+]
+
+---
+
+## 3. Método de la diferencia indirecta (Tabla 3)
+
+.codefontchico[
+
+``` r
+# importo la base
+data_3 &lt;- rio::import("ej_pl.xlsx", which = 3)
+
+data_3
+```
+
+```
+##   caso Y X1 X2 X3
+## 1    A 1  1  1  0
+## 2    B 1  1  1  0
+## 3    C 1  1  0  0
+## 4    D 1  1  0  0
+## 5    E 0  1  0  1
+## 6    F 0  1  0  1
+```
+
+``` r
+# pongo la variable caso como nombre de filas, para que no la cuente como variable
+data_3 &lt;- data_3 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+data_3
+```
+
+```
+##   Y X1 X2 X3
+## A 1  1  1  0
+## B 1  1  1  0
+## C 1  1  0  0
+## D 1  1  0  0
+## E 0  1  0  1
+## F 0  1  0  1
+```
+]
+
+---
+
+## 3. Método de la diferencia indirecta (Tabla 3)
+
+.codefontchico[
+
+``` r
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# Pasos:
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_3, data_3$Y, necessity = TRUE)
+```
+
+```
+##     Cons.Nec Cov.Nec   RoN
+## Y        1.0   1.000 1.000
+## X1       1.0   0.667 0.000
+## X2       0.5   1.000 1.000
+## X3       0.0   0.000 0.667
+## ~Y       0.0   0.000 0.667
+## ~X1      0.0     NaN 1.000
+## ~X2      0.5   0.500 0.500
+## ~X3      1.0   1.000 1.000
+```
+
+``` r
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_3 &lt;- as.data.frame(QCAfit(data_3, data_3$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_3) 
+```
+
+```
+##     Cons.Nec
+## X1         1
+## ~X3        1
+```
+]
+
+---
+
+## 3. Método de la diferencia indirecta (Tabla 3)
+
+.codefontmaschico[
+
+``` r
+# preparo data para análisis de suficiencia X1
+data_analisis_suf_3 &lt;- data_3 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X1)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_3 &lt;- ifelse(nrow(data_analisis_suf_3) &gt; 0, print("No suficiente"), print("Suficiente"))
+```
+
+```
+## [1] "No suficiente"
+```
+
+``` r
+# preparo data para análisis de suficiencia no X3
+data_analisis_suf_3b &lt;- data_3 %&gt;% 
+  filter(X3 == 0) %&gt;% # selecciono las filas con X1 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X1)
+  select(Y, X3)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X1 = 1
+analisis_suf_3b &lt;- ifelse(nrow(data_analisis_suf_3b) &gt; 0, print("No suficiente"), print("Suficiente"))
+```
+
+```
+## [1] "Suficiente"
+```
+]
+
+--
+
+
+- Análisis de necesidad: X1 y ~X3 son condiciones necesarias; 
+- Análisis de suficiencia: ~X3 es suficiente.
+- No hay forma de decidir si ~X3 es una condición necesaria y suficiente por sí sola o bien si la presencia x1 y ~X3 son conjuntamente una configuración necesaria y suficiente. 
+- El  problema del método de la diferencia indirecta es que no puede lidiar con la equifinalidad.
+- ¿Qué hacer? Un análisis configuracional
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+Tabla de datos
+
+.center[
+&lt;img src="ima/t6.png" width="550px" height="400px" /&gt;
+]
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+Tabla de verdad
+
+.center[
+&lt;img src="ima/t7.png" width="1000px" /&gt;
+]
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+Tabla de verdad con alternativas de tratamiento de contrafácticos
+
+.center[
+&lt;img src="ima/t8.png" width="1000px" /&gt;
+]
+
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+.codefontmaschico[
+
+``` r
+# importo la base, con argumento which puedo seleccionar diferentes hojas del excel
+data_4 &lt;- rio::import("ej_pl.xlsx", which = 4)
+
+data_4 &lt;- data_4 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# Pasos:
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_4, data_4$Y, necessity = TRUE)
+
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_4 &lt;- as.data.frame(QCAfit(data_4, data_4$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_4)
+
+# preparo data para análisis de suficiencia
+data_analisis_suf_4 &lt;- data_4 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X3 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X3)
+  select(Y, X1)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X3 = 1
+analisis_suf_4 &lt;- ifelse(nrow(data_analisis_suf_4) &gt; 0, print("No suficiente"), print("Suficiente"))
+
+
+library(QCA)
+
+# Tabla de verdad para analizar configuraciones causales paquete QCA
+
+tabla_de_verdad &lt;- truthTable(data_pl, outcome = "Y", show.cases = TRUE, complete = TRUE)
+print(tabla_de_verdad)
+
+# minimizacion lógica tratando residuos como falsos (Solucion Compleja)
+min_sc &lt;- minimize(tabla_de_verdad, details=TRUE, show.cases=TRUE)
+print(min_sc)
+
+# minimizacion lógica tratando residuos como verdaderos (Solucion Parsimoniosa)
+min_sp &lt;- minimize(tabla_de_verdad, include="?", details=TRUE, show.cases=TRUE)
+print(min_sp)
+```
+]
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+.codefontmaschico[
+
+``` r
+# importo la base, con argumento which puedo seleccionar diferentes hojas del excel
+data_4 &lt;- rio::import("ej_pl.xlsx", which = 4)
+
+data_4
+```
+
+```
+##    caso Y X1 X2 X3
+## 1     A 1  1  1  0
+## 2     B 1  1  1  0
+## 3     C 1  1  0  0
+## 4     D 1  1  0  0
+## 5     E 0  1  0  1
+## 6     F 0  1  0  1
+## 7     G 0  0  0  1
+## 8     H 1  1  1  0
+## 9     I 1  1  1  1
+## 10    J 1  1  0  1
+```
+
+``` r
+data_4 &lt;- data_4 %&gt;% 
+  remove_rownames %&gt;% 
+  column_to_rownames(var="caso") 
+
+data_4
+```
+
+```
+##   Y X1 X2 X3
+## A 1  1  1  0
+## B 1  1  1  0
+## C 1  1  0  0
+## D 1  1  0  0
+## E 0  1  0  1
+## F 0  1  0  1
+## G 0  0  0  1
+## H 1  1  1  0
+## I 1  1  1  1
+## J 1  1  0  1
+```
+]
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+.codefontmaschico[
+
+``` r
+# hago un análisis de necesidad con la función QCAfit del paquete SetMethods
+# Pasos:
+# LLamar a la función, data, variable dependiente (Y), necessity = TRUE
+QCAfit(data_4, data_4$Y, necessity = TRUE)
+```
+
+```
+##     Cons.Nec Cov.Nec   RoN
+## Y      1.000   1.000 1.000
+## X1     1.000   0.778 0.333
+## X2     0.571   1.000 1.000
+## X3     0.286   0.400 0.625
+## ~Y     0.000   0.000 0.700
+## ~X1    0.000   0.000 0.900
+## ~X2    0.429   0.500 0.571
+## ~X3    0.714   1.000 1.000
+```
+
+``` r
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+# Si quiero guardar el resultado en un data frame, me quedo sólo con la columna 1
+analisis_nec_4 &lt;- as.data.frame(QCAfit(data_4, data_4$Y, necessity = TRUE)) %&gt;% 
+  select(Cons.Nec) %&gt;% # selecciono la columna del análisis de necesidad
+  filter(Cons.Nec == 1) %&gt;% # filtro las cons. Nec. consistentes = 1 "Verdaderas"
+  filter(row.names(.) != "Y") # elimino de la tabla la variable Y (dep)
+
+print(analisis_nec_4)
+```
+
+```
+##    Cons.Nec
+## X1        1
+```
+]
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+.codefontmaschico[
+
+``` r
+# preparo data para análisis de suficiencia
+data_analisis_suf_4 &lt;- data_4 %&gt;% 
+  filter(X1 == 1) %&gt;% # selecciono las filas con X3 = 1 (presunta variable necesaria)
+  filter(Y == 0) %&gt;% # selecciono las filas con Y = 0 (para identificar casos de ausencia de Y, con presencia de X3)
+  select(Y, X1)  # selecciono únicamente las variables Y y X3
+
+# testeo una condición con ifelse para saber si hay casos que tengan Y = 0 y X3 = 1
+analisis_suf_4 &lt;- ifelse(nrow(data_analisis_suf_4) &gt; 0, print("No suficiente"), print("Suficiente"))
+```
+
+```
+## [1] "No suficiente"
+```
+]
+
+---
+
+## 4. Análisis configuracional con QCA (Tabla 6)
+
+.codefontchico[
+
+``` r
+library(QCA)
+
+# Tabla de verdad para analizar configuraciones causales paquete QCA
+
+tabla_de_verdad &lt;- truthTable(data_4, outcome = "Y", show.cases = TRUE, complete = TRUE)
+print(tabla_de_verdad)
+```
+
+```
+## 
+##   OUT: output value
+##     n: number of cases in configuration
+##  incl: sufficiency inclusion score
+##   PRI: proportional reduction in inconsistency
+## 
+##     X1 X2 X3   OUT    n  incl  PRI   cases
+## 1   0  0  0     ?     0    -     -        
+## 2   0  0  1     0     1  0.000 0.000 G    
+## 3   0  1  0     ?     0    -     -        
+## 4   0  1  1     ?     0    -     -        
+## 5   1  0  0     1     2  1.000 1.000 C,D  
+## 6   1  0  1     0     3  0.333 0.333 E,F,J
+## 7   1  1  0     1     3  1.000 1.000 A,B,H
+## 8   1  1  1     1     1  1.000 1.000 I
+```
+]
+
+--
+
+- Configuración 1 (8): La reelección esta permitida, su gestión es buena, y la oposición es fuerte. **(X1 ∗ X2 ∗ X3 =&gt; Y) **.
+
+- Configuración 2 (7): La reelección esta permitida, su gestión es buena, y la oposición no es fuerte. **(X1 ∗ X2 ∗ ¬X3 =&gt; Y)**.
+
+- Configuración 4 (5): La reelección esta permitida, su gestión no es buena, y la oposición no es fuerte. **(X1 ∗ ¬X2 ∗ ¬X3 =&gt; Y)**
+
+---
+
+## 5. Minimización lógica
+
+.codefontchico[
+
+``` r
+# minimizacion lógica tratando residuos como falsos (Solucion Compleja)
+min_sc &lt;- minimize(tabla_de_verdad, details=TRUE, show.cases=TRUE)
+print(min_sc)
+```
+
+```
+## 
+## M1: X1*X2 + X1*~X3 -&gt; Y
+## 
+##            inclS   PRI   covS   covU   cases 
+## ------------------------------------------------- 
+## 1   X1*X2  1.000  1.000  0.571  0.143  A,B,H; I 
+## 2  X1*~X3  1.000  1.000  0.714  0.286  C,D; A,B,H 
+## ------------------------------------------------- 
+##        M1  1.000  1.000  0.857
+```
+
+``` r
+# minimizacion lógica tratando residuos como verdaderos (Solucion Parsimoniosa)
+min_sp &lt;- minimize(tabla_de_verdad, include="?", details=TRUE, show.cases=TRUE)
+print(min_sp)
+```
+
+```
+## 
+## M1: X2 + ~X3 -&gt; Y
+## 
+##         inclS   PRI   covS   covU   cases 
+## ---------------------------------------------- 
+## 1   X2  1.000  1.000  0.571  0.143  A,B,H; I 
+## 2  ~X3  1.000  1.000  0.714  0.286  C,D; A,B,H 
+## ---------------------------------------------- 
+##     M1  1.000  1.000  0.857
+```
+]
+
+---
+
+class: inverse, center, middle
+
+# 2. Discusión del texto de Albala
+
+---
+
+## Discusión del texto de Albala
+
+&lt;br/&gt;
+&lt;br/&gt;
+
+&gt; Albala, A. (2016). Presidencialismo y coaliciones de gobierno en América Latina: Un análisis del papel de las instituciones. Revista de ciencia política (Santiago), 36(2), 459-479.
+
+&lt;br/&gt;
+&lt;br/&gt;
+
+---
+
+## Preguntas al texto de Albala
+
+1. ¿Cuál es el objetivo del trabajo?
+
+2. ¿Cuál es la variable dependiente?
+
+3. ¿Cuáles son las variables independientes?
+
+4. ¿Cuáles son las hipótesis?
+
+5. ¿Cuál es su universo poblacional?
+
+6. ¿Cuál es su muestra?
+
+7. ¿Cómo selecciona los casos?
+
+8. ¿Identifica algún problema de sesgo de selección?
+
+9. ¿Cómo operacionaliza las variables?
+
+10. ¿Qué estrategia sigue al utilizar el QCA?
+
+11. ¿Cuáles son los principales resultados?
+
+
+---
+
+## Preguntas al texto de Albala
+
+**1. ¿Cuál es el objetivo del trabajo?**
+
+--
+
+&lt;br/&gt;
+
+- El objetivo de este artículo consiste en realizar una actualización y un testeo de las principales hipótesis inspiradas por la corriente neoinstitucionalista, y su impacto en las coaliciones de gobierno. 
+
+&lt;br/&gt;
+
+- Mediante un enfoque configuracional de los gobiernos de coalición en América Latina desde la vuelta a la democracia, procuraremos sistematizar las principales hipótesis en boga que busquen evidenciar relaciones causales automáticas, por no decir “mecánicas”, del marco institucional por sobre el desempeño de los gobiernos de coalición latinoamericanos.
+
+
+---
+
+## Preguntas al texto de Albala
+
+**2. ¿Cuál es la variable dependiente?**
+
+--
+
+- Coaliciones de gobierno en regímenes presidencialistas
+
+&gt; Definición gobierno de coalición bajo régimen presidencial: _"una alianza de partidos con el fin de una acción gubernamental común, alrededor de un “formador” presidencial, contando con una convergencia de los recursos organizacionales y financieros de cada uno de los participantes, y que desemboca en una repartición de las carteras ministeriales entre los mismos participantes."_ (p. 463)
+
+&lt;br/&gt;
+
+- La divide en dos variables dependientes
+
+1. Formación de coaliciones de gobierno en regímenes presidencialistas
+
+2. Supervivencia de coaliciones de gobierno en regímenes presidencialistas
+
+
+---
+
+## Preguntas al texto de Albala
+
+**3. ¿Cuáles son las variables independientes?**
+
+--
+
+- Tres tipos de variables institucionales:
+
+&lt;br/&gt;
+	
+1. Sistema electoral
+
+2. Sistema de partidos y su organización
+
+3. Sistema político y grado de equilibrio de poderes
+
+---
+
+## Preguntas al texto de Albala
+
+**4. ¿Cuáles son las hipótesis?**
+
+--
+
+- Formación de coaliciones de gobierno en regímenes presidencialistas 
+
+&gt; H1: La posibilidad de balotaje para la elección presidencial y la simultaneidad de las elecciones presidenciales y parlamentarias serían elementos fuertemente incitativos a la formación de coaliciones.
+
+&gt; H2: Cuanto más alto es el número de partidos, más alta es la probabilidad de casos de presidencialismos minoritarios, y por ende más alta es la probabilidad de formarse gobiernos de coalición “por necesidad”. Por oposición, cuanto más bajo el número de partidos, más alta es la probabilidad para el Presidente de contar con una mayoría parlamentaria y, por tanto, más baja es la necesidad de formar coaliciones. 
+
+&gt; H3: Cuanto más elevados son los poderes del Presidente, más alta es la tentación de gobernar solo (sin formar coaliciones). La posibilidad de gobernar por decreto desincentivaría la negociación. Por oposición cuanto menos autónomo del Parlamento más alta es la necesidad de formar coaliciones.
+
+---
+
+## Preguntas al texto de Albala
+
+**4. ¿Cuáles son las hipótesis?**
+
+
+- Supervivencia de coaliciones de gobierno en regímenes presidencialistas 
+
+&gt; H4: La ausencia de posibilidad de reelección aumenta la probabilidad de quiebre de las coaliciones gubernamentales.
+
+&gt; H5: El no poseer una mayoría “confortable” (&gt;55%) en la Cámara de Diputados, aumenta la probabilidad de quiebre precoz de la coalición de gobierno.
+
+&gt; H6: Cuanto más socios, más alta es la probabilidad de quiebre.
+
+&gt; H7: El ocaso de elecciones intermedias “relevantes” (parlamentarias/ gobernadores) aumenta la probabilidad de quiebre de las coaliciones.
+
+---
+
+## Preguntas al texto de Albala
+
+**5. ¿Cuál es su universo poblacional?**
+
+--
+
+Regímenes presidencialistas
+
+
+&lt;br/&gt;
+&lt;br/&gt;
+
+--
+
+**6. ¿Cuál es su muestra?**
+
+--
+
+- Formación de coaliciones:
+
+Regímenes presidencialistas sudamericanos entre 1980-2013 + México y Costa Rica (la unidad de análisis no es país, sino el régimen y sus características institucionales)  
+
+
+- Supervivencia de coaliciones:
+
+Toma sólo los casos de presencia de coalición de la muestra anterior
+
+---
+
+## Preguntas al texto de Albala
+
+**7. ¿Cómo selecciona los casos?**
+
+--
+
+El testeo de las variables se realiza a partir de los casos sudamericanos a los que sumamos el caso costarricense. Colocamos a México como caso ilustrativo. 
+
+&lt;br/&gt;
+
+--
+
+**8. ¿Identifica algún problema de sesgo de selección?**
+
+--
+
+1. No establece un mecanismo explícito, pero sus criterios son período temporal (1980-2013) y zona geográfica (América Latina).
+
+2. Al testear las hipótesis toma casos sudamericanos (más México y Costa Rica)
+
+
+---
+
+## Preguntas al texto de Albala
+
+**9. ¿Cómo operacionaliza las variables?**
+
+
+Formación de coaliciones
+
+--
+
+.small-text[
+
+- La **variable SEF**, por “Sistema Electoral Facilitador”, remite a la primera hipótesis. La ordenaremos en tres grados de valoración, en función de cuán “incitador” es la ley electoral para la formación de coaliciones, y la operacionalizamos de la forma siguiente: “2”, cuando la ley electoral prevé la simultaneidad total o parcial entre elecciones presidencial y legislativa, cumulando esto con la posibilidad de balotaje; “1”, cuando la ley electoral prevé una de estas dos posibilidades; “0”, cuando la ley electoral no prevé ninguna de esas posibilidades.
+
+- La **variable NPR**, por “Número de Partidos Relevantes” en el sistema de partidos, donde “0” supone un sistema de partido con un NPR inferior o igual a 3, condición mínima para que haya racionalmente “necesidad” de armar alianzas; y “1” supone un NPR superior a 3. Fundamos la valorización de una media ponderada a partir de los trabajos de Alcántara (2003), Crespo Martínez y Garrido (2008) y Chasquetti (2008).
+
+
+- La **variable PWP**, por “Poderes del Presidente”, elaborada a partir de las atribuciones proactivas y reactivas de Presidente, y organizada en función de su carácter incitativo, según la teoría: “0” cuando los poderes del Presidente son elevados; “1” cuando las atribuciones del Presidente parecen “débiles”. Nos fundaremos a partir de los indicadores de Shugart y Carey (1992), Zovatto y Orozco (2008), y del BID (2006, 2010).
+
+
+- Al resultado o “variable dependiente”, **RESULT**, se le asigna un “1” cuando el caso conoció al menos un gobierno de coalición, y un “0” cuando nunca se experimentará esta forma de gobierno. Desdoblamos los casos (marcados I y II), cuando un cambio constitucional relevante viniera afectar fuertemente alguna de las variables que acabamos de presentar.
+]
+
+---
+
+## Preguntas al texto de Albala
+
+**9. ¿Cómo operacionaliza las variables?**
+
+Supervivencia de coaliciones
+
+--
+
+.small-text[
+
+- La variable **REELEC** remite a la posibilidad constitucional de reelección directa del Presidente en ejercicio. O sea, más allá de la reelección per se, consideraremos la posibilidad del Presidente en ejercicio de volverse a presentar, pues todas las constituciones que prevén la reelección directa la permiten una vez seguida. Por lo que asignaremos con un “1” los casos en que el Presidente pueda volver a presentarse; y con “0” casos en que no pudiera, o no pudiera más representarse (en el caso en que estuviera al final de su segundo mandato seguido).
+
+- La variable **LARGE** trata del contingente legislativo del Presidente en la Cámara Baja, exprimida en el caso en que la coalición contara con una “mayoría confortable” (&gt;55%), asignada por “1”; de lo contrario le atribuimos un valor “0”.
+
+- La variable **PART** se estima en función de la composición de la coalición. Cuanto menos socios, se supone que menos problemas potenciales, por lo que “1” representaría el número mínimo de socios (2); y “0” supone un número de socios superior a dos.
+
+- La variable **INTERM** considera la existencia de elecciones relevantes (legislativas/ gobernadores) intermedias, tipo midterms, como potenciales elementos debilitantes de cohesión interna. Con valor “1” en caso de que ocurrencia de elecciones intermedias durante el mandato; y “0” su ausencia. Precisamos que las elecciones “casi simultáneas”, o sea, donde una elección parlamentaria ocurriera con unos pocos meses de atraso/ anticipación respecto de elecciones presidenciales, como en el caso colombiano, por ejemplo, no son consideradas como intermediarias.
+
+]
+
+---
+
+## Preguntas al texto de Albala
+
+**9. ¿Cómo operacionaliza las variables?**
+
+Supervivencia de coaliciones
+
+--
+
+.small-text[
+
+- La variable de control **ECO** sirve para mostrar si el contexto económico fue desfavorable, con la ocurrencia o importación de una crisis socioeconómica, que notaremos con “1”; o si el contexto fue “normal”, caso notado “0”. Por lógica habría de esperarse que dificultades económicas conducirían a un debilitamiento del gobierno e incentivarían a la implosión de la coalición, ya que los socios no querrán ser castigados, o lo menos posible, por el (mal) desempeño del gobierno.
+
+- La variable dependiente **RESULT**, como resultado de supervivencia (1) o disolución (0) de la coalición de gobierno, a partir de la repartición de los socios en el gabinete el día de la asunción del Presidente. Consideraremos asimismo como “disueltas” (0) las coaliciones que no consiguieron mantenerse estables durante la totalidad del mandato, ya sea mediante una implosión de la coalición o la salida de un elemento relevante. Por oposición, consideraremos como “conservada” (1) toda coalición que haya conseguido mantenerse estable durante todo el mandato presidencial. Adicionalmente, no consideraremos como casos de disolución de coalición los recambios ministeriales, ni las salidas de partidos marginales, cuya salida no generase una pérdida de mayoría ni un cambio de orientación política.
+
+]
+
+---
+
+## Preguntas al texto de Albala
+
+**10. ¿Qué estrategia sigue al utilizar el QCA?**
+
+--
+
+- No realiza un análisis de QCA completo. Se concentra en testear las hipótesis que se derivan de la literatura institucionalista, con el objetivo de falsearlas.
+
+--
+
+- Formación de coaliciones
+
+&gt; SEF(2)\*NPR(1)\*PWP(1) ⇒ 1
+
+.small-text[
+
+Léase: si un sistema electoral muy facilitador (SEF=2)
+combinase con un número de partidos elevado (NPR=1) y unos poderes presidenciales
+débiles (PWP=1), entonces habría de notarse una condición positiva para la formación
+de coaliciones (RESULT=1).
+
+]
+
+--
+
+- Supervivencia de coaliciones
+
+&gt; REELEC(1)\*LARGE(1)\*PART(1)\*INTERM(0)\*ECO(0) ⇒ 1
+
+.small-text[
+Léase, en caso en que exista la reelección presidencial (REELEC=1), combinada con un contingente parlamentario importante (LARGE=1), un número mínimo de socios en el gobierno (PART=1), la ausencia de elecciones intermediarias (INTERM=0) y un contexto económico “normal” (ECO=0), entonces las coaliciones tenderían a “sobrevivir” (RESULT=1).
+]
+
+---
+
+## Preguntas al texto de Albala
+
+.center[
+&lt;img src="ima/albala1.png" width="400px" height="500px" /&gt;
+]
+
+---
+
+## Preguntas al texto de Albala
+
+.center[
+&lt;img src="ima/albala2.png" width="400px" height="500px" /&gt;
+]
+
+---
+
+## Preguntas al texto de Albala
+
+.center[
+&lt;img src="ima/albala3.png" width="400px" height="500px" /&gt;
+]
+
+---
+
+## Preguntas al texto de Albala
+
+.center[
+&lt;img src="ima/albala4.png" width="400px" height="500px" /&gt;
+]
+
+---
+
+## Preguntas al texto de Albala
+
+
+**11. ¿Cuáles son los principales resultados?**
+
+--
+
+
+&gt; Las variables institucionales no pueden considerarse condiciones necesarias ni suficientes para la emregencia ni supervivencia de coaliciones de gobierno en regímenes preseidencialistas.
+
+---
+
+class: inverse, center, middle
+
+# 3. Ejercicios en R con paquetes SetMethods y QCA
+
+---
+
+## 3. Ejercicios en R con paquetes SetMethods y QCA
+
+Diccionario de variables de las bases de datos para los ejercicios 
+
+- **Y = Democracia** = 1 Si; 0 No
+- **X1 = Desigualdad económica** = 1 baja; 0 alta
+- **X2 = Nivel de fragmentación cultural** = 1 baja; 0 alta
+- **X3 = PBI per cápita mayor a USD 6.000** = 1 Si; 0 No
+- **X4 = Economía dependiente del petroleo** = 1 Si; 0 No
+- **X5 = Mayoría de las elites políticas prefieren la democracia como forma de gobierno** = 1 Si; 0 No
+
+---
+
+## Ejercicio 1: Método de la similitud y de la diferencia
+
+.content-box-blue[
+
+a.
+
+Importar en R la hoja 1 del archivo "data_ej_comparado.xlsx"
+
+P1. Identifique el método
+
+P2.  Realice un análisis de necesidad y suficiencia
+
+P3. ¿Cuál es la principal dificultad de este método?
+
+&lt;br/&gt;
+
+b.
+
+Importar en R la hoja 2 del archivo "data_ej_comparado.xlsx"
+
+P1. Identifique el método
+
+P2.  Realice un análisis de necesidad y suficiencia
+
+P3. ¿Cuál es la principal dificultad de este método?
+]
+
+---
+
+## Ejercicio 2: Análisis configuracional con QCA (csQCA)
+
+.content-box-blue[
+
+Importar en R la hoja 3 del archivo "data_ej_comparado.xlsx"
+
+
+P1. Realice un análisis de necesidad
+
+P2. Construya una tabla de verdad
+
+P3. Identifique las configuraciones causales suficientes, las no suficientes (distinguiendo las contradictorias) y los contrafácticos.
+
+P4. ¿Qué alternativas sugiere para el tratamiento de los contrafácticos?
+
+P5. ¿Puede realizarse una minimización lógica para lograr una explicación más parsimoniosa?
+
+P6. ¿Cuál es el resultado del análisis en términos sustantivos?
+
+Extra realice el mismo ejercicio con los datos de la hoja 4 del archivo "data_ej_comparado.xlsx"
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false,
+"incremental": true,
+"df_print": "kable",
+"smaller": true,
+"widescreen": true,
+"highlightLines": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
