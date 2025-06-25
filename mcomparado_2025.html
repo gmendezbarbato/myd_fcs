@@ -157,7 +157,7 @@ library(SetMethods)
 library(QCA)
 
 # importo la base
-data_1 &lt;- rio::import("ej_pl.xlsx", which = 1)
+data_1 &lt;- rio::import("data_lab_comparado.xlsx", which = 1)
 
 # pongo la variable caso como nombre de filas, para que no la cuente como variable
 data_1 &lt;- data_1 %&gt;% 
@@ -211,7 +211,7 @@ library(SetMethods)
 library(QCA)
 
 # importo la base
-data_1 &lt;- rio::import("ej_pl.xlsx", which = 1)
+data_1 &lt;- rio::import("data_lab_comparado.xlsx", which = 1)
 
 data_1
 ```
@@ -329,7 +329,7 @@ analisis_suf_1 &lt;- ifelse(nrow(data_analisis_suf_1) &gt; 0, print("No suficien
 
 ``` r
 # importo la base
-data_2 &lt;- rio::import("ej_pl.xlsx", which = 2)
+data_2 &lt;- rio::import("data_lab_comparado.xlsx", which = 2)
 
 # pongo la variable caso como nombre de filas, para que no la cuente como variable
 data_2 &lt;- data_2 %&gt;% 
@@ -368,7 +368,7 @@ analisis_suf_2 &lt;- ifelse(nrow(data_analisis_suf_2) &gt; 0, print("No suficien
 
 ``` r
 # importo la base
-data_2 &lt;- rio::import("ej_pl.xlsx", which = 2)
+data_2 &lt;- rio::import("data_lab_comparado.xlsx", which = 2)
 
 data_2
 ```
@@ -481,7 +481,7 @@ analisis_suf_2 &lt;- ifelse(nrow(data_analisis_suf_2) &gt; 0, print("No suficien
 
 ``` r
 # importo la base
-data_3 &lt;- rio::import("ej_pl.xlsx", which = 3)
+data_3 &lt;- rio::import("data_lab_comparado.xlsx", which = 3)
 
 # pongo la variable caso como nombre de filas, para que no la cuente como variable
 data_3 &lt;- data_3 %&gt;% 
@@ -532,7 +532,7 @@ analisis_suf_3b &lt;- ifelse(nrow(data_analisis_suf_3b) &gt; 0, print("No sufici
 
 ``` r
 # importo la base
-data_3 &lt;- rio::import("ej_pl.xlsx", which = 3)
+data_3 &lt;- rio::import("data_lab_comparado.xlsx", which = 3)
 
 data_3
 ```
@@ -694,7 +694,7 @@ Tabla de verdad con alternativas de tratamiento de contrafácticos
 
 ``` r
 # importo la base, con argumento which puedo seleccionar diferentes hojas del excel
-data_4 &lt;- rio::import("ej_pl.xlsx", which = 4)
+data_4 &lt;- rio::import("data_lab_comparado.xlsx", which = 4)
 
 data_4 &lt;- data_4 %&gt;% 
   remove_rownames %&gt;% 
@@ -749,7 +749,7 @@ print(min_sp)
 
 ``` r
 # importo la base, con argumento which puedo seleccionar diferentes hojas del excel
-data_4 &lt;- rio::import("ej_pl.xlsx", which = 4)
+data_4 &lt;- rio::import("data_lab_comparado.xlsx", which = 4)
 
 data_4
 ```
