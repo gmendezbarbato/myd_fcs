@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Medición y diseño de investigación</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="FCS-UdelaR - Fabricio Carneiro y Gustavo Méndez" />
+    <script src="libs/header-attrs-2.29/header-attrs.js"></script>
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link href="libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <link href="libs/xaringanExtra-extra-styles-0.2.6/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+    <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="estilo.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Medición y diseño de investigación
+]
+.subtitle[
+## Clase 2: Manipulación de datos
+]
+.author[
+### FCS-UdelaR - Fabricio Carneiro y Gustavo Méndez
+]
+.date[
+### marzo 2026
+]
+
+---
+
+class: inverse, center, middle
+
+
+
+class: inverse, center, middle
+
+# Plan para hoy
+
+
+---
+
+## Introducción
+
+- **Directorios de trabajo**
+
+- **Proyectos**
+
+- **Importar y exportar datos**
+
+- **Exploración data frames**
+
+- **Estadística descriptiva**
+
+- **Transformación de datos**
+
+- **Ejercicios**
+
+---
+class: inverse, center, middle
+
+# Directorios de trabajo 
+
+---
+
+## Directorios de trabajo 
+- Para abrir en R un archivo guardado en tu computadora, debes especificar en qué carpeta está guardado. Hay muchas opciones, una de ellas es fijar un directorio por defecto (es decir, especificarle a R la carpeta en la que vamos a trabajar):
+
+.codefont[
+
+``` r
+# Puedo fijar el directorio de trabajo con la función setwd()
+# Fijar la carpeta donde vamos a importar y exportar los archivos:
+setwd("micompu/micarpeta") # ojo con la / no es \
+getwd() # Con está función puedo consultar el directorio
+```
+]
+
+.codefont[
+
+``` r
+# Ahora, si quiero leer un archivo que esté en "micompu/micarpeta" simplemente 
+# escribo su nombre dentro de la función, en el lugar del "path".
+
+# Supongamos que tengo dentro de la carpeta "micarpeta" un excel con datos
+# de desempleo en Uruguay:
+
+library(readxl)
+desempleo_uru &lt;- read_excel("data/desempleo.xlsx")
+head(desempleo_uru, 4)
+```
+
+```
+## # A tibble: 4 × 2
+##    Year  tasa
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  1990   8.5
+## 2  1991   8.9
+## 3  1992   9  
+## 4  1993   8.3
+```
+]
+
+---
+
+## Crear una carpeta
+
+En la computadora en la que estés trabajando debes crear una carpeta de nombre **myd_2026** (dentro de la carpeta que prefieras o en el escritorio), con las siguientes carpetas dentro:
+
+- **data** Descargar de EVA la carpeta **data** (está en la sección Introducción a R y RStudio, Materiales Clase 2) y pegar el contenido aquí.
+
+- **scripts** Descargar los distintos scripts (archivos de código) de EVA y guardarlos en esta carpeta (código de la clase, ejercicios, soluciones, etc.)
+
+- **graficos** Crear una carpeta gráficos que por el momento esté vacía, vamos a ir incluyendo guardando archivos ahí
+
+- **resultados** Crear una carpeta resultados que por el momento esté vacía, vamos a ir incluyendo guardando archivos ahí
+
+
+---
+
+## Carpeta del curso
+
+Deberían ver en su carpeta algo así:
+
+.center[
+&lt;img src="ima/carpeta_curso2025.png" width="1000px" /&gt;
+]
+
+---
+
+## Directorio de R
+
+Al comienzo de cada script **deben** especificar el directorio donde está su carpeta del curso, de lo contrario los códigos les van a devolver errores. 
+
+En este caso, por ejemplo, creé la carpeta "myd_2026" en el escritorio de mi PC. Para acceder al directorio completo vayan a donde esta su carpeta hagan click derecho en la carpeta, seleccionen "propiedades" y luego ahí bajo dirección pueden copiar el directorio.
+
+
+``` r
+setwd("C:/Usuario/User/Desktop/myd_2026") 
+```
+
+De esta forma, por ejemplo, si queremos leer una base de datos llamada "datauru.xlsx" que está guardada en la carpeta **data** dentro de la carpeta **myd_2026**, simplemente tenemos que especificar la siguiente dirección (porque R ya lo va a buscar dentro de la carpeta **myd_2026**)
+
+
+``` r
+datauru &lt;- read_excel("data/datauru.xlsx") 
+```
+
+---
+
+## Trabajar con proyectos
+
+RStudio tiene una solución mucho más eficiente para fijar directorios de trabajo: **Proyectos**
+
+Los proyectos se guardan en una carpeta en un archivo .Rproj
+
+De manera simplificada, lo que hace es setear una carpeta. Por lo cual, al abrir ese archivo de proyecto, RStudio "sabe" que estamos trabajando en ese directorio y no tenemos que escribir la ruta.
+
+Hay tres opciones al crear un proyecto:
+
+  - Crearlo en un nuevo directorio (nueva carpeta)
+  
+  - Crearlo en un directorio ya existente
+  
+  - Trabajar en control de versiones (Por ejemplo, clonando un repositorio de github con la URL)
+  
+
+---
+
+## Trabajar con proyectos
+
+.center[
+&lt;img src="ima/proj.png" width="1000px" /&gt;
+]
+
+---
+
+## Trabajar con proyectos 
+
+Crea un proyecto en la carpeta del curso creada en la computadora en la que estés trabajando.
+
+El nombre del proyecto debe ser igual al nombre de la carpeta matriz que lo contiene. 
+
+Ejemplo: 
+
+  - Carpeta: **myd_2026**
+  
+  - Archivo: **myd_2026.Rproj**
+  
+  
+
+---
+
+## here::here
+
+- El paquete **here** tiene una función llamada también `here()` que facilita la selección de rutas de archivos.
+
+- Pueden explorarlo con `help(here)` o `?here` o buscar ayuda en los foros
+
+- Recuerden que para utilizarlo deben instalarlo previamente `install.packages("here")`
+
+---
+class: inverse, center, middle
+
+# Importar y exportar datos
+
+---
+
+## Importar datos
+- Hasta ahora trabajamos principalmente con datos ingresados manualmente con las funciones `c()` y `data.frame()`
+
+- Normalmente cuando trabajamos con datos solemos utilizar datos ya creados guardados en los formatos de otros programas (ej. Excel, Stata, SPSS) 
+
+- Existen varios paquetes que permiten importar y exportar datos desde distintos formatos. Algunos de los más utilizados son [readr](https://readr.tidyverse.org/), [haven](https://haven.tidyverse.org/), [readxl](https://readxl.tidyverse.org/) y [utils](https://www.rdocumentation.org/packages/utils/versions/3.6.2)
+
+- El primer paso es siempre identificar la extensión del archivo que queremos importar. Por ejemplo, las planillas excel (dependiendo de la versión) suelen tener extension .xlsx. Pueden consultar la extensión de un archivo con botón derecho + propiedades
+
+- Luego deben identificar en qué carpeta está guardada esa base de datos.
+
+---
+
+## Importar datos 
+Distintas funciones nos sirven para importar datos a R desde distintos formatos. Veamos algunos ejemplos:
+
+.codefont[
+
+``` r
+# Con la función read_csv() del paquete readr importamos archivos .csv
+library(tidyverse)
+gapminder_csv &lt;- read_csv("data/gapminder.csv")
+
+# Con la función read_excel() del paquete readxl importamos archivos excel
+library(readxl)
+gapminder_excel &lt;- read_excel("data/gapminder.xlsx")
+```
+]
+
+.codefont[
+
+``` r
+# Vemos que los dataframes son iguales, tienen la mismas filas y columnas
+dim(gapminder_csv)
+```
+
+```
+## [1] 1704    6
+```
+
+``` r
+dim(gapminder_excel)
+```
+
+```
+## [1] 1704    6
+```
+]
+---
+
+## Importar datos
+Algunos paquetes incluyen datos, por ejemplo, gapminder. En la documentación del paquete se encuentra el nombre de los datos. Con una simple asignación los podemos cargar 
+
+``` r
+#install.packages("gapminder")
+library(gapminder)
+
+data_gapminder &lt;- gapminder
+head(data_gapminder)
+```
+
+```
+## # A tibble: 6 × 6
+##   country     continent  year lifeExp      pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+## 1 Afghanistan Asia       1952    28.8  8425333      779.
+## 2 Afghanistan Asia       1957    30.3  9240934      821.
+## 3 Afghanistan Asia       1962    32.0 10267083      853.
+## 4 Afghanistan Asia       1967    34.0 11537966      836.
+## 5 Afghanistan Asia       1972    36.1 13079460      740.
+## 6 Afghanistan Asia       1977    38.4 14880372      786.
+```
+
+---
+
+## Importar datos
+También es posible importar datos guardados en los formatos de otros softwares estadísticos como SPSS o Stata. Para esto usaremos el paquete haven.
+
+.codefont[
+
+``` r
+library(haven)
+
+# SPSS
+gapminder_spss &lt;- read_spss("data/gapminder.sav") 
+
+# STATA
+gapminder_stata &lt;- read_stata("data/gapminder.dta") 
+```
+]
+
+O podríamos llamar a la función y paquete dado que generalmente solo utilizamos una función de los paquetes que cargan datos (depende del caso obviamente)
+
+.codefont[
+
+``` r
+# SPSS
+gapminder_spss &lt;- haven::read_spss("data/gapminder.sav") 
+
+# STATA
+gapminder_stata &lt;- haven::read_stata("data/gapminder.dta") 
+```
+]
+
+---
+
+## Importar datos 
+R también cuenta con sus propios formatos de almacenamiento de datos (`.rds` y `.Rdata` o `.rda`). 
+
+Este enfoque es poco práctico si queremos usar los datos almacenados en otro programa, pero muy útil si solamente usaremos R dado que mantiene la información tal cual estaba en R (por ej. tipos de variables o atributos):
+
+.codefont[
+
+``` r
+# Para esto no necesitamos cargar paquetes. 
+# Guardar un objeto como .rds:
+saveRDS(object = data_gapminder,
+        file = "resultados/data_gapminder.rds") 
+
+ # Leemos un archivo .rds
+miobjeto_rds &lt;- readRDS(file = "resultados/data_gapminder.rds")
+
+# Con .rda se pueden guardar varios objetos al mismo tiempo!
+# Exportamos un archivo .Rdata
+save(data_gapminder, miobjeto_rds,
+     file = "resultados/dos_dataframes.Rdata") 
+
+ # Importamos un archivo .Rdata
+load("resultados/dos_dataframes.Rdata")
+```
+]
+
+---
+
+## Exportar datos 
+- También podemos guardar archivos desde R en otros formatos. 
+- Con [readr](https://readr.tidyverse.org/) podemos exportar archivos en formato .csv 
+- Con [writexl](https://cran.r-project.org/web/packages/writexl/writexl.pdf) podemos exportar directamente un excel.
+- Con [haven](https://www.rdocumentation.org/packages/haven/versions/2.3.1) podemos exportar achivos en formato .dta (Stata) y .sav (SPSS)
+
+.codefont[
+
+``` r
+# Guardar .csv
+library(gapminder)
+data_gapminder &lt;- gapminder
+write_excel_csv(data_gapminder, "resultados/gapminder.csv")
+
+# Guardar excel
+library(writexl)
+write_xlsx(data_gapminder, "resultados/gapminder.xlsx")
+
+# Guardar .dta (Stata)
+library(haven)
+write_dta(data_gapminder, "resultados/gapminder.dta")
+
+# Guardar .sav (SPSS)
+write_sav(data_gapminder, "resultados/gapminder.sav")
+
+# Guardar .sas (SAS)
+write_sas(data_gapminder, "resultados/gapminder.sas")
+```
+]
+
+
+---
+class: inverse, center, middle
+
+# Paquete rio
+
+---
+
+## Paquete rio
+
+- El paquete [rio](https://cran.r-project.org/web/packages/rio/rio.pdf) permite importar, exportar y convertir datos desde y hacia diferentes formatos de manera más óptima.
+
+- Las funciones `import()` y `export()` facilitan la tarea y hacen más intuitivo el proceso.
+
+- En realidad lo que hace **rio** es enmascarar en un paquete muchas funciones de los paquetes de importación que vimos anteriormente.
+
+- Una de las grandes ventajas es que "adivina" el formato.
+
+.center[
+&lt;img src="ima/rio_navaja.png" width="250px" /&gt;
+]
+
+---
+
+## Paquete rio: import
+
+**Varios paquetes**
+.codefont[
+
+``` r
+# Importar csv
+# Con la función read_csv() del paquete readr importamos archivos .csv
+library(tidyverse) # carga readr
+gapminder_csv &lt;- read_csv("data/gapminder.csv")
+
+# Importar Excel
+# Con la función read_excel() del paquete readxl importamos archivos excel
+library(readxl)
+gapminder_excel &lt;- read_excel("data/gapminder.xlsx")
+
+# Importar SPSS
+# Con la función read_spss() del paquete haven importamos archivos SPSS
+library(haven)
+gapminder_spss &lt;- read_spss("data/gapminder.sav") 
+```
+]
+
+**rio**
+.codefont[
+
+``` r
+# Con la función import() de rio importamos, csv, excel, SPSS y más...
+library(rio)
+# Importar csv
+gapminder_csv &lt;- import("data/gapminder.csv")
+# Importar Excel
+gapminder_excel &lt;- import("data/gapminder.xlsx")
+# Importar SPSS
+gapminder_spss &lt;- import("data/gapminder.sav")
+```
+]
+
+---
+
+## Paquete rio: export
+
+**Varios paquetes**
+.codefont[
+
+``` r
+# Guardar .csv
+# Con la función write_excel_csv del paquete readr exportamos archivos csv
+write_excel_csv(gapminder_csv, "resultados/gapminder.csv")
+
+# Guardar excel
+# Con la función write_xlsx del paquete writexl exportamos archivos excel
+library(writexl)
+write_xlsx(gapminder_excel, "resultados/gapminder.xlsx")
+
+# Guardar .sav (SPSS)
+# Con la función write_sav() del paquete haven exportamos archivos SPSS
+library(haven)
+write_sav(gapminder_spss, "resultados/gapminder.dta")
+```
+]
+
+**rio**
+.codefont[
+
+``` r
+# Con la función export() de rio exportamos, csv, excel, SPSS y más...
+library(rio)
+# Exportar (guardar) csv
+ export(gapminder_csv, "resultados/gapminder.csv")
+# Exportar (guardar) Excel
+export(gapminder_excel, "resultados/gapminder.xlsx")
+# Exportar (guardar) SPSS
+export(gapminder_spss, "resultados/gapminder.sav")
+```
+]
+
+---
+class: inverse, center, middle
+
+# Explorar Dataframes 
+
+---
+
+## Resumen visual de un dataframe
+
+.codefont[
+
+``` r
+# R tiene un visor para datos. Pueden dar click en el dataframe en el ambiente o:
+view(data_gapminder)
+```
+]
+
+.codefont[
+
+``` r
+dim(data_gapminder) # Número de filas y columnas
+```
+
+```
+## [1] 1704    6
+```
+
+``` r
+names(data_gapminder) # Nombre de variables
+```
+
+```
+## [1] "country"   "continent" "year"      "lifeExp"   "pop"       "gdpPercap"
+```
+
+``` r
+head(data_gapminder, 3) # Imprime primeras filas (3 en este caso)
+```
+
+```
+## # A tibble: 3 × 6
+##   country     continent  year lifeExp      pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+## 1 Afghanistan Asia       1952    28.8  8425333      779.
+## 2 Afghanistan Asia       1957    30.3  9240934      821.
+## 3 Afghanistan Asia       1962    32.0 10267083      853.
+```
+]
+
+---
+
+## Resumen visual de un dataframe 
+
+Una de las funciones más útiles para resumir un dataframe es `glimpse()` del paquete dplyr o tidyverse. Es particularmente util debido a que permite un vistazo al nombre, tipo y primeros valores de .bold[todos] las variables de un dataframe.
+
+.codefont[
+
+``` r
+# Resumen visual más completo:
+glimpse(gapminder) 
+```
+
+```
+## Rows: 1,704
+## Columns: 6
+## $ country   &lt;fct&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", …
+## $ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+## $ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+## $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+## $ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+## $ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …
+```
+]
+
+---
+## Tablas simples
+
+En R Base la función para obtener frecuencias es `table()` junto con `prop.table()` y `addmargins()`
+
+.codefontchico[
+
+``` r
+# Para obtener una tabla de frecuencias de una variable usamos la función
+# table() de R Base
+tabla_1 &lt;- table(data_gapminder$continent) # Frecuencia simple
+tabla_1 
+```
+
+```
+## 
+##   Africa Americas     Asia   Europe  Oceania 
+##      624      300      396      360       24
+```
+
+``` r
+prop.table(tabla_1) # Proporciones
+```
+
+```
+## 
+##     Africa   Americas       Asia     Europe    Oceania 
+## 0.36619718 0.17605634 0.23239437 0.21126761 0.01408451
+```
+
+``` r
+addmargins(tabla_1) # Totales
+```
+
+```
+## 
+##   Africa Americas     Asia   Europe  Oceania      Sum 
+##      624      300      396      360       24     1704
+```
+
+``` r
+addmargins(prop.table(tabla_1)) # Proporciones y totales
+```
+
+```
+## 
+##     Africa   Americas       Asia     Europe    Oceania        Sum 
+## 0.36619718 0.17605634 0.23239437 0.21126761 0.01408451 1.00000000
+```
+]
+
+
+---
+class: inverse, center, middle
+
+# Estadística descriptiva
+
+---
+
+## Medidas de tendencia central 
+
+.codefont[
+
+``` r
+mean(data_gapminder$lifeExp) # Media
+```
+
+```
+## [1] 59.47444
+```
+
+``` r
+median(data_gapminder$lifeExp) # Mediana
+```
+
+```
+## [1] 60.7125
+```
+
+``` r
+sd(data_gapminder$lifeExp) # Desvío estandar
+```
+
+```
+## [1] 12.91711
+```
+]
+
+---
+
+## Rangos 
+
+
+``` r
+range(data_gapminder$lifeExp) # Rango
+```
+
+```
+## [1] 23.599 82.603
+```
+
+``` r
+max(data_gapminder$lifeExp)
+```
+
+```
+## [1] 82.603
+```
+
+``` r
+min(data_gapminder$lifeExp)
+```
+
+```
+## [1] 23.599
+```
+
+---
+
+## Histogramas 
+También podemos graficar los datos rápidamente. Por ejemplo, un histograma:
+
+.center[
+.codefont[
+
+``` r
+hist(data_gapminder$lifeExp,
+     main = "Distribución de expectativa de vida (Gapminder)")
+```
+
+&lt;img src="clase_2_2026_files/figure-html/ej22-1.png" width="400px" /&gt;
+]
+]
+---
+
+## Gráfico de dispersión (scatterplot) 
+
+.center[
+
+``` r
+plot(data_gapminder$lifeExp, data_gapminder$gdpPercap,
+     main = "Relación entre expectativa de vida y PBI per cápita")
+```
+
+&lt;img src="clase_2_2026_files/figure-html/ej22_b-1.png" width="400px" /&gt;
+]
+
+
+---
+
+## Ejercicio
+
+.content-box-blue[
+*(1) Importar el archivo excel en la carpeta data llamado "datauru.xlsx"*
+
+*(2) Explorar el dataframe con dim(), names(), head()*
+
+*(3) Explorar el dataframe con la función glimpse()*
+
+*(4) Explorar el dataframe con la función str()*
+
+*(5) Explorar el dataframe con la función summary()*
+
+*(6) Exportar (guardar) el archivo excel en la carpeta resultados con el nombre "datauru.xlsx"*
+
+
+
+
+&lt;!-- *(3) Calcular la media de una variable numérica* --&gt;
+
+&lt;!-- *(4) Crear una tabla de proporciones con la distribución de la variable partido* --&gt;
+
+&lt;!-- *(5) Crear un gráfico de dispersión con las variables inflación (eje de las x) y aprobación (eje de las y)* --&gt;
+]
+
+---
+class: inverse, center, middle
+
+# Transformar datos
+
+---
+## Transformar datos con dplyr
+
+El paquete dplyr contiene funciones muy útiles para la transformación de dataframes (tibbles). Todas las funciones tienen en común que su primer argumento es un dataframe y que devuelven un dataframe. Algunas de las funciones que vamos a ver:
+
+- `filter()`: filtrar observaciones en base a valores
+- `select()`: filtrar variables 
+- `mutate()`: crear o recodificar variables
+- `group_by()`: define grupos de valores utilizar las otras funciones
+- `summarise()`: colapsa valores según alguna fórmula (sumar, número de casos, media, etc.)
+
+---
+## Filtrar
+Una de las tareas más comunes en el análisis de datos es filtrar observaciones en base a condiciones. Existen muchas maneras de filtrar datos en R, la función `filter()` de dplyr es una de las más sencillas de utilizar. El primer argumento es el dataframe y el segundo la condición por la que queremos filtrar.
+
+.codefont[
+
+``` r
+# Tenemos datos de muchos años:
+table(gapminder$year)
+```
+
+```
+## 
+## 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 2002 2007 
+##  142  142  142  142  142  142  142  142  142  142  142  142
+```
+
+``` r
+# Filtremos para con los datos a partir de 2007
+gapminder_07 &lt;- filter(gapminder, year == 2007)
+table(gapminder_07$year)
+```
+
+```
+## 
+## 2007 
+##  142
+```
+]
+
+---
+## Operadores aritméticos 
+
+&lt;table class="table table-striped table-hover table-condensed" style="font-size: 20px; color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Operador &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Descripcion &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Ejemplo &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Resultado &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; + &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Suma &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2+2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; - &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Resta &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2-2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; * &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Multiplicación &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2*2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; División &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2%2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ^ &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Potencia &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2^3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 8 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Operadores relacionales 
+
+&lt;table class="table table-striped table-hover table-condensed" style="font-size: 20px; color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Operador &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Descripcion &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Ejemplo &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Resultado &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Menor a &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4 &amp;lt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &amp;gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Mayor a &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 6 &amp;gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt;= &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Menor o igual a &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 4 &amp;lt;= 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &amp;gt;= &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Mayor o igual a &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 6 &amp;gt;= 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; %in% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Está incluido dentro de &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2 %in% c(0, 1, 2) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; == &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Igual a &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; hola == hello &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; != &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Distinto a &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; hola != hello &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TRUE &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Operadores booleanos
+
+&lt;table class="table table-striped table-hover table-condensed" style="font-size: 20px; color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Operador &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Prueba &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; a &amp;amp; b &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; a y b son verdaderos &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; a | b &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; al menos una de a o b son verdaderas &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; !a &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; a no es verdadera &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; isTrue(a) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; a es verdadera &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+## Filtrar
+
+Utilizando operadores lógicos podemos filtrar de formas más complejas:
+
+
+``` r
+# Todas los años menos 2007
+gapminder_pre07 &lt;- filter(gapminder, year != 2007)
+table(gapminder_pre07$year)
+```
+
+```
+## 
+## 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 2002 
+##  142  142  142  142  142  142  142  142  142  142  142
+```
+
+``` r
+# Solo los siguientes años: 1952, 1992 y 2007
+anios_especificos &lt;- c(1952, 1992, 2007)
+gapminder_esp &lt;- filter(gapminder, year %in% anios_especificos)
+
+table(gapminder_esp$year)
+```
+
+```
+## 
+## 1952 1992 2007 
+##  142  142  142
+```
+
+---
+## Seleccionar variables
+Con `select()` podemos seleccionar las variables (columnas) que queremos mantener en un dataframe. Podemos nombrarlas, seleccionar cuáles queremos eliminar y referirnos por su orden:
+
+
+``` r
+# Selccionar un conjunto de variables (país, año, población)
+select(gapminder, country, year, pop)
+
+# Selccionar todas las variables menos las especificadas
+select(gapminder, -continent)
+
+# Seleccionar un rango de variables según orden
+select(gapminder, country:lifeExp)
+select(gapminder, 1:3) # Orden numérico
+```
+
+---
+
+
+## Pipeline %&gt;% 
+- Una de las ventajas del Tidyverse es la facilidad con la que se puede leer e interpretar el código. Un elemento fundamental para esto es el pipeline (`%&gt;%`). Es muy útil para expresar una secuencia de muchas operaciones.
+
+- Habíamos visto varias formas de realizar esto: sobrescribir el mismo objeto, con objetos intermedios o anidando funciones. 
+
+- El pipeline del paquete [magrittr](https://magrittr.tidyverse.org/) hace más fácil modificar operaciones puntuales dentro de conjunto de operaciones y hace que sea más fácil leer (evitando leer de adentro hacia afuera) entre otras ventajas.
+
+- Como vimos, la mayoría de las funciones de dplyr que se aplican a un dataframe tienen como primer argumento el dataframe al que le queremos aplicar la función. 
+
+- Con el pipeline especificamos el dataframe solamente una vez al principio. De esta forma nos enfocamos en la transformación y no en el objeto.
+
+---
+
+## Pipeline %&gt;% 
+
+Cuando queremos realizar más de una operación a un dataframe podemos utilizar el pipeline. 
+
+.codefont[
+
+``` r
+gapminder_07_america &lt;- gapminder %&gt;% 
+  filter(year == 2007 &amp; continent == "Americas") %&gt;% 
+  select(-continent)
+
+print(gapminder_07_america)
+```
+
+```
+## # A tibble: 25 × 5
+##    country             year lifeExp       pop gdpPercap
+##    &lt;fct&gt;              &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+##  1 Argentina           2007    75.3  40301927    12779.
+##  2 Bolivia             2007    65.6   9119152     3822.
+##  3 Brazil              2007    72.4 190010647     9066.
+##  4 Canada              2007    80.7  33390141    36319.
+##  5 Chile               2007    78.6  16284741    13172.
+##  6 Colombia            2007    72.9  44227550     7007.
+##  7 Costa Rica          2007    78.8   4133884     9645.
+##  8 Cuba                2007    78.3  11416987     8948.
+##  9 Dominican Republic  2007    72.2   9319622     6025.
+## 10 Ecuador             2007    75.0  13755680     6873.
+## # ℹ 15 more rows
+```
+]
+
+No es recomendable usar el pipeline cuando hay más de un objeto o si las funciones tienen múltiples entradas y salidas
+
+
+
+---
+## Otras funciones de dplyr muy útiles
+
+- `arrange()` ordenar los datos según una o más variables
+
+- `rename()` cambiar el nombre de las variables de un dataframe
+
+- `pull()` y `distinct()`: con `distinct()` es posible identificar los valores distintos de una variable y con `pull()` los podemos extraer como un vector
+
+- `slice_min()` y `slice_max()`: filtrar n observaciones de mayor o menor valor según variable. En general, la familia de funciones [slice](https://dplyr.tidyverse.org/reference/slice.html) permite filtrar observaciones en función de su posición.  
+
+- `count()` contar observaciones por grupo
+
+- `relocate()` cambiar el orden de columnas
+
+---
+
+class: inverse, center, middle
+
+# Crear y recodificar variables 
+
+---
+
+## Crear variables con mutate() 
+El paquete [dplyr](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) contiene la función [`mutate()`](https://www.rdocumentation.org/packages/dplyr/versions/0.5.0/topics/mutate) para crear nuevas variables. `mutate()` crea variables al final del dataframe.
+
+.codefont[
+
+``` r
+data_gapminder &lt;- gapminder
+
+# Variable de caracteres
+data_gapminder &lt;- mutate(data_gapminder, var1 = "Valor fijo") 
+
+# Variable numérica
+data_gapminder &lt;- mutate(data_gapminder, var2 = 7) 
+head(data_gapminder, 3)
+```
+
+```
+## # A tibble: 3 × 8
+##   country     continent  year lifeExp      pop gdpPercap var1        var2
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
+## 1 Afghanistan Asia       1952    28.8  8425333      779. Valor fijo     7
+## 2 Afghanistan Asia       1957    30.3  9240934      821. Valor fijo     7
+## 3 Afghanistan Asia       1962    32.0 10267083      853. Valor fijo     7
+```
+
+``` r
+## Podemos escribir lo mismo de distinta manera:
+data_gapminder &lt;- mutate(data_gapminder, var1 = "Valor fijo",
+                                         var2 = 7)
+```
+]
+
+---
+
+## Recodificar variables con mutate() 
+.codefont[
+Con `mutate()` también podemos realizar operaciones sobre variables ya existentes:
+
+``` r
+## Podemos recodificar usando variables y operadores aritméticos
+# Calculemos el pbi total (pbi per capita * población)
+d_gap &lt;- mutate(gapminder, gdp = gdpPercap * pop)
+head(d_gap, 3)
+```
+
+```
+## # A tibble: 3 × 7
+##   country     continent  year lifeExp      pop gdpPercap         gdp
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Afghanistan Asia       1952    28.8  8425333      779. 6567086330.
+## 2 Afghanistan Asia       1957    30.3  9240934      821. 7585448670.
+## 3 Afghanistan Asia       1962    32.0 10267083      853. 8758855797.
+```
+
+``` r
+# Podemos calcular el logaritmo 
+d_gap &lt;- mutate(d_gap, gdp_log = log(gdp))
+head(d_gap, 2)
+```
+
+```
+## # A tibble: 2 × 8
+##   country     continent  year lifeExp     pop gdpPercap         gdp gdp_log
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;     &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Afghanistan Asia       1952    28.8 8425333      779. 6567086330.    22.6
+## 2 Afghanistan Asia       1957    30.3 9240934      821. 7585448670.    22.7
+```
+]
+
+---
+
+## Transformaciones de tipo 
+
+Al igual que hacíamos con los vectores, podemos tranformar el tipo de una variable 
+
+
+
+.codefont[
+
+``` r
+# Exploro tipo de variables
+glimpse(d_gap)
+```
+
+```
+## Rows: 1,704
+## Columns: 3
+## $ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+## $ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+## $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+```
+
+``` r
+# Variable continente a caracteres y año a factor
+d_gap &lt;- d_gap %&gt;% 
+  mutate(continent = as.character(continent),
+         year = as.factor(year))
+
+glimpse(d_gap)
+```
+
+```
+## Rows: 1,704
+## Columns: 3
+## $ continent &lt;chr&gt; "Asia", "Asia", "Asia", "Asia", "Asia", "Asia", "Asia", "Asi…
+## $ year      &lt;fct&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+## $ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+```
+]
+
+
+---
+class: inverse, center, middle
+
+# Recodificaciones condicionales
+
+---
+
+## Recodificaciones condicionales
+- Muchas veces transformar los datos implica recodificar una variable de forma condicional, esto es, asignar distintos valores en función de los valores de una o más variables.
+
+- Para esto podemos utilizar las funciones; [ifelse()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/ifelse) (R Base), [mutate()](https://www.rdocumentation.org/packages/dplyr/versions/0.5.0/topics/mutate), [recode()](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/recode) y [case_when()](https://dplyr.tidyverse.org/reference/case_when.html) (Tidyverse)
+
+- Nosotros veremos recodificaciones condicionales con `case_when()` y `mutate()`
+
+---
+
+## Recodificación condicional con case_when y mutate
+
+Podemos crear variables condicionales con `case_when()` del paquete  dplyr. Esencialmente, con `ifelse()` (R Base) podemos lograr lo mismo que con `case_when()` (Tidyverse). `case_when()` puede resultar más sencilla de utilizar al no haber necesidad de anidar la función cuando establecemos múltiples condiciones. 
+
+Cuando trabajmos con dataframes `case_when()` se utiliza dentro de `mutate()`. `case_when()` testea condiciones en orden (esto es importante cuando pasamos condiciones no excluyentes). `case_when()` lista condiciones para las que asigna un valor en caso de que sean verdaderas, y permite pasar múltiples condiciones. `TRUE` refiere a las condiciones no listadas. La estructura de `case_when()` es: 
+
+
+
+``` r
+data %&gt;% 
+  mutate(var_nueva = case_when(var_original == "Valor 1" ~ "Valor A",
+                               var_original == "Valor 2" ~ "Valor B",
+                               TRUE ~ "Otros"))
+```
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+
+
+``` r
+d_gap &lt;- gapminder
+
+# Creemos una variable que indique si el país es Uruguay o no
+d_gap &lt;- d_gap %&gt;% 
+  mutate(uruono = case_when(
+    country == "Uruguay" ~ "Si",
+    TRUE ~ "No")
+    )
+
+table(d_gap$uruono)
+```
+
+```
+## 
+##   No   Si 
+## 1692   12
+```
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+Podemos establecer varias condiciones fácilmente:
+
+.codefont[
+
+``` r
+d_gap &lt;- gapminder
+
+d_gap &lt;- d_gap %&gt;% 
+  mutate(mercosur = case_when(country == "Uruguay" ~ 1,
+                              country == "Argentina" ~ 1,
+                              country == "Paraguay" ~ 1,
+                              country == "Brazil" ~ 1, 
+                              TRUE ~ 0))
+
+table(d_gap$mercosur)
+```
+
+```
+## 
+##    0    1 
+## 1656   48
+```
+]
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+También podríamos usar operadores para simplificar esto:
+
+.codefont[
+
+``` r
+d_gap &lt;- d_gap %&gt;% 
+  mutate(mercosur = case_when(
+  country %in% c("Argentina", "Paraguay", "Brazil", "Uruguay") ~ 1,
+  TRUE ~ 0)
+  ) 
+
+d_gap &lt;- d_gap %&gt;% 
+  mutate(mercosur2 = case_when(
+    country == "Argentina" | country == "Paraguay" |
+      country == "Brazil" | country == "Uruguay" ~ 1,
+    TRUE ~ 0)
+    )
+
+identical(d_gap$mercosur, d_gap$mercosur2)
+```
+
+```
+## [1] TRUE
+```
+]
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+Recodificación con valores numéricos. Supongamos que queremos crear una nueva variable pob_rec, que clasifica a los países en población grande (más de 20 millones), mediana (entre 5 y 20) o pequeña (menos de 5)
+
+.codefont[
+
+``` r
+d_gap &lt;- d_gap %&gt;% 
+  mutate(pob_rec = case_when(
+    pop &gt;= 20000000 ~ "Grande",
+    pop &gt;= 5000000 &amp; pop &lt; 20000000 ~ "Mediana",
+    pop &lt; 5000000 ~ "Pequeña",
+    TRUE ~ "Error")
+  ) 
+
+table(d_gap$pob_rec)
+```
+
+```
+## 
+##  Grande Mediana Pequeña 
+##     419     580     705
+```
+]
+
+
+---
+
+## Recodificación condicional con case_when y mutate
+
+`case_when()` sirve también para recodificar una variable con condiciones basadas en múltiples variables.
+
+Supongamos que queremos una variable que indique los países-año con expectativa de vida mayor a 75 o pbi per cápita mayor a 20.000
+
+.codefont[
+
+``` r
+d_gap &lt;- d_gap %&gt;% 
+  mutate(var1 = case_when(gdpPercap &gt; 20000 ~ 1,
+                          lifeExp &gt; 75 ~ 1,
+                          TRUE ~ 0))
+table(d_gap$var1)
+```
+
+```
+## 
+##    0    1 
+## 1493  211
+```
+]
+
+---
+
+## Ejercicio
+
+.content-box-blue[
+*(1) Abran un script nuevo y tomen el dataframe de gapminder (importarlo de la carpeta data o descargarlo desde el paquete gapminder como debajo, y filtrar para la base para quedarnos solamente con las observaciones América y Oceania*
+
+
+``` r
+library(gapminder)
+gapminder &lt;- gapminder
+```
+
+*(2) En ese mismo dataframe con solamente las observaciones de América y Oceanía seleccionar solamente tres variables: continent, country y lifeExp*
+
+*(3) En ese mismo dataframe, crear una nueva variable que divida la expectativa de vida en 3 categorías: "Alta" (mayor o igual a 75 años); "Media" (mayor o igual a 65 y menor a 75 y "Baja" (menor a 65 años)*
+
+*(4) Asegurarse de hacer los primeros 3 pasos en un mismo pipeline*
+
+*(Extra) convertir la variable creada a factor modificando el mismo código con funciones anidadas*
+
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"countIncrementalSlides": false,
+"incremental": true,
+"df_print": "kable",
+"smaller": true,
+"widescreen": true,
+"highlightLines": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

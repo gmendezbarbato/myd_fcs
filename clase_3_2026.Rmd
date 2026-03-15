@@ -1,0 +1,1100 @@
+---
+title: "Medición y diseño de investigación"
+subtitle: "Clase 3"
+author: "FCS-UdelaR - Fabricio Carneiro y Gustavo Méndez"
+date: "abril 2026"
+output:
+  xaringan::moon_reader:
+    css:
+    - "xaringan-themer.css"
+    - estilo.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      countIncrementalSlides: no
+      incremental: yes
+      df_print: kable
+      smaller: yes
+      widescreen: yes
+      highlightLines: yes
+  html_document:
+    df_print: paged
+---
+
+
+class: inverse, center, middle
+
+```{r setup, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+library(kableExtra)
+library(xaringan)
+library(xaringanExtra)
+library(gapminder)
+library(tidyverse)
+
+gapminder <- gapminder
+
+style_duo_accent(primary_color = "#0E6251",
+                 secondary_color = "#507786",
+                 text_font_family = "Droid Serif",
+                 text_font_url = "https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic",
+                 header_font_google = google_font("Yanone Kaffeesatz"),
+                 text_slide_number_color = "#000000")
+knitr::opts_chunk$set(echo = FALSE)
+options("kableExtra.html.bsTable" = T)
+
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+use_xaringan_extra(c("tile_view", "animate_css", "tachyons"))
+use_scribble()
+use_extra_styles(
+  hover_code_line = TRUE,         
+  mute_unhighlighted_code = TRUE
+  )  
+```
+
+
+# Plan para hoy 
+
+---
+
+## Objetivos de esta clase
+
+
+- Repaso clase 2 R (filter, select)
+
+- Factores
+
+- Crear y recodificar variables `mutate()`
+
+- Recodificaciones condicionales con `ifelse()` y `case_when()`
+
+- `group_by()` y `summarise()`
+
+- Tablas y resúmenes
+
+
+---
+class: inverse, center, middle
+
+# Repaso clase 2 R
+
+---
+## Transformar datos con dplyr
+
+El paquete dplyr contiene funciones muy útiles para la transformación de dataframes (tibbles). Todas las funciones tienen en común que su primer argumento es un dataframe y que devuelven un dataframe. Algunas de las funciones que vamos a ver:
+
+- `filter()`: filtrar observaciones en base a valores
+- `select()`: filtrar variables 
+- `mutate()`: crear o recodificar variables
+- `group_by()`: define grupos de valores utilizar las otras funciones
+- `summarise()`: colapsa valores según alguna fórmula (sumar, número de casos, media, etc.)
+
+---
+## Filtrar
+Una de las tareas más comunes en el análisis de datos es filtrar observaciones en base a condiciones. Existen muchas maneras de filtrar datos en R, la función `filter()` de dplyr es una de las más sencillas de utilizar. El primer argumento es el dataframe y el segundo la condición por la que queremos filtrar.
+
+.codefont[
+```{r chsdsdsds1, echo = TRUE}
+gapminder <- gapminder
+
+# Tenemos datos de muchos años:
+table(gapminder$year)
+
+# Filtremos para con los datos a partir de 2007
+gapminder_07 <- filter(gapminder, year == 2007)
+table(gapminder_07$year)
+```
+]
+
+---
+## Operadores aritméticos 
+
+```{r ejsdsd11, echo = FALSE}
+tabla2 <- data.frame(Operador=c("+", "-", "*", "%", "^"),
+                     Descripcion=c("Suma", "Resta", "Multiplicación", "División", "Potencia"),
+                     Ejemplo=c("2+2", "2-2", "2*2", "2%2", "2^3"),
+                     Resultado=c("4", "0", "4", "1", "8"))
+tabla2 %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 20)
+
+```
+
+---
+
+## Operadores relacionales 
+
+```{r ej11bsdsd, echo = FALSE}
+tabla3 <- data.frame(Operador=c("<", ">", "<=", ">=", "%in%", "==", "!="),
+                     Descripcion=c("Menor a", "Mayor a", "Menor o igual a", "Mayor o igual a",
+                                   "Está incluido dentro de","Igual a", "Distinto a"),
+                     Ejemplo=c("4 < 4", "6 > 2", "4 <= 4", "6 >= 2", "2 %in% c(0, 1, 2)","hola == hello", "hola != hello"),
+                     Resultado=c("FALSE", "TRUE", "TRUE", "TRUE", "TRUE", "FALSE", "TRUE"))
+tabla3 %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 20)
+
+```
+
+---
+
+## Operadores booleanos
+
+```{r ej11cssds, echo = FALSE}
+tabla4 <- data.frame(Operador=c("a & b ", "a | b", "!a", "isTrue(a)"),
+                     Prueba=c("a y b son verdaderos", "al menos una de a o b son verdaderas", "a no es verdadera", "a es verdadera"))
+tabla4 %>%
+  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 20)
+
+```
+
+---
+## Filtrar
+
+Utilizando operadores lógicos podemos filtrar de formas más complejas:
+
+```{r ch2b, echo = TRUE}
+# Todas los años menos 2007
+gapminder_pre07 <- filter(gapminder, year != 2007)
+table(gapminder_pre07$year)
+
+# Solo los siguientes años: 1952, 1992 y 2007
+anios_especificos <- c(1952, 1992, 2007)
+gapminder_esp <- filter(gapminder, year %in% anios_especificos)
+
+table(gapminder_esp$year)
+```
+
+---
+## Seleccionar variables
+Con `select()` podemos seleccionar las variables (columnas) que queremos mantener en un dataframe. Podemos nombrarlas, seleccionar cuáles queremos eliminar y referirnos por su orden:
+
+```{r ch4, results = "hide", echo = TRUE}
+# Selccionar un conjunto de variables (país, año, población)
+select(gapminder, country, year, pop)
+
+# Selccionar todas las variables menos las especificadas
+select(gapminder, -continent)
+
+# Seleccionar un rango de variables según orden
+select(gapminder, country:lifeExp)
+select(gapminder, 1:3) # Orden numérico
+```
+
+---
+
+
+## Pipeline %>% 
+- Una de las ventajas del Tidyverse es la facilidad con la que se puede leer e interpretar el código. Un elemento fundamental para esto es el pipeline (`%>%`). Es muy útil para expresar una secuencia de muchas operaciones.
+
+- Habíamos visto varias formas de realizar esto: sobrescribir el mismo objeto, con objetos intermedios o anidando funciones. 
+
+- El pipeline del paquete [magrittr](https://magrittr.tidyverse.org/) hace más fácil modificar operaciones puntuales dentro de conjunto de operaciones y hace que sea más fácil leer (evitando leer de adentro hacia afuera) entre otras ventajas.
+
+- Como vimos, la mayoría de las funciones de dplyr que se aplican a un dataframe tienen como primer argumento el dataframe al que le queremos aplicar la función. 
+
+- Con el pipeline especificamos el dataframe solamente una vez al principio. De esta forma nos enfocamos en la transformación y no en el objeto.
+
+---
+
+## Pipeline %>% 
+
+Cuando queremos realizar más de una operación a un dataframe podemos utilizar el pipeline. 
+
+.codefont[
+```{r ch6, echo = TRUE}
+gapminder_07_america <- gapminder %>% 
+  filter(year == 2007 & continent == "Americas") %>% 
+  select(-continent)
+
+print(gapminder_07_america)
+```
+]
+
+No es recomendable usar el pipeline cuando hay más de un objeto o si las funciones tienen múltiples entradas y salidas
+
+
+
+---
+## Otras funciones de dplyr muy útiles
+
+- `arrange()` ordenar los datos según una o más variables
+
+- `rename()` cambiar el nombre de las variables de un dataframe
+
+- `pull()` y `distinct()`: con `distinct()` es posible identificar los valores distintos de una variable y con `pull()` los podemos extraer como un vector
+
+- `slice_min()` y `slice_max()`: filtrar n observaciones de mayor o menor valor según variable. En general, la familia de funciones [slice](https://dplyr.tidyverse.org/reference/slice.html) permite filtrar observaciones en función de su posición.  
+
+- `count()` contar observaciones por grupo
+
+- `relocate()` cambiar el orden de columnas
+
+---
+
+## count(): el table() de tidyverse
+
+.codefont[
+```{r count, echo = TRUE}
+
+gapminder %>% 
+  count(continent) %>% 
+  head(3) #imprimo solo las primeras tres filas
+
+
+gapminder %>% 
+  count(continent, year) %>% 
+  head(3) #imprimo solo las primeras tres filas
+
+```
+]
+
+---
+
+## rename()
+
+.codefont[
+```{r rename, echo = TRUE}
+
+gapminder %>%
+  count(continent) %>%
+  rename(Continente = continent, Total = n)
+```
+]
+
+
+---
+
+## count() + rename() + arrange()
+
+.codefont[
+```{r count_rename_arr, echo = TRUE}
+gapminder %>%
+  count(continent) %>%
+  rename(
+    "Continente" = continent,
+    "Cantidad de países" = n
+  ) %>%
+  arrange(`Cantidad de países`)
+```
+]
+---
+
+class: inverse, center, middle
+
+# Factores 
+
+---
+
+## ¿Para qué sirve un factor en R?
+
+
+- Un factor es un vector que contiene un número fijo  de categorías
+
+- Los vectores de caracteres guardan la información por caracter (letra por letra), mientras que los factores asignan un número a cada categoría (por eso, en realidad es un tipo de dato integer `typeof()` vs `class()`
+
+- Cada uno de estos números establece los niveles del factor
+
+- Por eso nos permite fijar un número limitado de categorías de una variables
+
+- Esto es clave para la creación, codificación o recodificación de variables nominales y ordinales
+
+- Es muy útil a la hora del análisis de la información, procesamientos estadísticos y visualización de datos
+
+- Una variables de character no agrupa automáticamente los valores de una variable pese a tener el mismo contenido (en caracteres) 
+
+---
+
+## El paquete forcats de tidyverse
+
+- Tidyverse tiene un paquete llamado `forcats` que facilita muchísimo el trabajo con factores
+
+- Permite de manera bastante sencilla crear factores, recodificarlos, reordenar los niveles (levels), cambiar las etiquetas (labels)
+
+- Además, como es del lenguaje tidyverse, les va a ser familiar la estructura de las funciones: `funcion(datos, argumentos...)`
+
+- [Acá está la descripción de forcats]( https://forcats.tidyverse.org/)
+
+- [Acá tienen una introducción a forcats](https://forcats.tidyverse.org/articles/forcats.html)
+
+.center[
+```{r, out.width = "150px"}
+knitr::include_graphics("ima/forcats.png")
+```
+]
+
+---
+
+## Algunas funciones de forcats
+
+
+- `fct_reorder()`: Reordenar un factor por otra variable.
+
+- `fct_infreq()`: Reordenar un factor por la frecuencia de valores.
+
+- `fct_relevel()`: Cambiar el orden de un factor manualmente.
+
+- `fct_lump()`: Colapsar los valores menos/más frecuentes de un factor en "otros".
+
+
+---
+
+## Crear un factor: variable categórica
+
+
+```{r f0, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+
+# creo un vector character de cinco elementos
+nominal <- c("Femenino", "Masculino", "Masculino", "Femenino", "Masculino")
+
+# convierto el vector a factor con la función as.factor()
+nominal <- as.factor(nominal)
+
+# chequeo clase de objeto
+class(nominal)
+
+# chequeo tipo de dato
+typeof(nominal)
+
+# chequeo niveles
+levels(nominal)
+
+
+```
+
+---
+
+## Manipulación básica de factores
+
+- Frecuencias
+
+```{r f1, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+
+# hago un recuento de frecuencia absoluta de cada categoría
+fct_count(nominal)
+
+# hago un recuento de frecuencia absoluta ordanada y relativa (proporción)
+fct_count(nominal, sort = TRUE, prop = TRUE)
+
+```
+
+---
+
+## Manipulación básica de factores
+
+- Modificación manual del orden de los niveles
+
+```{r f2, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+
+# modifico manualmente el orden de los factores
+nominal <- fct_relevel(nominal, c("Masculino", "Femenino"))
+
+# chequeo los niveles
+levels(nominal)
+
+```
+
+---
+
+
+## Manipulación básica de factores
+
+
+- Inviertir el orden de los niveles
+
+```{r f3, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+# invierto el orden de los factores
+
+nominal <- fct_rev(nominal)
+
+# chequeo los niveles
+levels(nominal)
+```
+
+---
+
+## Manipulación básica de factores
+
+
+- Ordeno los niveles por frecuencia 
+
+```{r f4, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+# ordeno los niveles por frecuencia (primero el más frecuente)
+
+nominal <- fct_infreq(nominal)
+
+# chequeo los niveles
+levels(nominal)
+
+```
+
+---
+
+## Manipulación básica de factores
+
+
+- Cambio el nombre de los niveles
+
+```{r f5, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+# Cambio el nombre de los niveles 
+
+nominal <- fct_recode(nominal, "F" = "Femenino", "M" = "Masculino")
+
+# chequeo los niveles
+levels(nominal)
+
+```
+
+---
+
+## Manipulación básica de factores
+
+
+- Añadir un nivel
+
+```{r f6, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+
+# chequeo los niveles 
+levels(nominal)
+
+# agrego un nivel nuevo
+nominal <- fct_expand(nominal, "Sin Dato")
+
+# chequeo los niveles
+levels(nominal)
+
+```
+
+---
+
+## Manipulación básica de factores
+
+
+- Eliminar niveles no utilizados
+
+```{r f7, echo = TRUE, error=TRUE, warning=FALSE}
+library(forcats)
+
+# chequeo los niveles 
+levels(nominal)
+
+# elimino los niveles no usados
+nominal <- fct_drop(nominal)
+
+# chequeo los niveles
+levels(nominal)
+
+```
+
+
+---
+
+## Ejercicio
+
+.content-box-blue[
+
+*(1) Crear un factor de nombre nivel_edu, que tenga 10 elementos y que sus categorías sean "Alto", "Medio" y "Bajo"* 
+
+*(2) Crear una tabla de frecuencia con la función fct_count() de forcats* 
+
+*(3) Crear una tabla de frecuencia con la función fct_count() de forcats, qeu además ordene según frecuencia y calcule la frecuencia relativa (proporción)* 
+
+*(4) Cambiar los nombres de los niveles por "Más de 12 años", "Entre 6 y 12 años", "Menos de 6 años"). Si tiene dudas utilice foros o la documentación del paquete* 
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Crear y recodificar variables 
+
+---
+
+## Crear variables con mutate() 
+El paquete [dplyr](https://cran.r-project.org/web/packages/dplyr/dplyr.pdf) contiene la función [`mutate()`](https://www.rdocumentation.org/packages/dplyr/versions/0.5.0/topics/mutate) para crear nuevas variables. `mutate()` crea variables al final del dataframe.
+
+.codefont[
+```{r ej25, echo = TRUE}
+data_gapminder <- gapminder
+
+# Variable de caracteres
+data_gapminder <- mutate(data_gapminder, var1 = "Valor fijo") 
+
+# Variable numérica
+data_gapminder <- mutate(data_gapminder, var2 = 7) 
+head(data_gapminder, 3)
+
+## Podemos escribir lo mismo de distinta manera:
+data_gapminder <- mutate(data_gapminder, var1 = "Valor fijo",
+                                         var2 = 7)
+```
+]
+
+---
+
+## Recodificar variables con mutate() 
+.codefont[
+Con `mutate()` también podemos realizar operaciones sobre variables ya existentes:
+```{r ej26, echo = TRUE}
+## Podemos recodificar usando variables y operadores aritméticos
+# Calculemos el pbi total (pbi per capita * población)
+d_gap <- mutate(gapminder, gdp = gdpPercap * pop)
+head(d_gap, 3)
+# Podemos calcular el logaritmo 
+d_gap <- mutate(d_gap, gdp_log = log(gdp))
+head(d_gap, 2)
+```
+]
+
+---
+
+## Transformaciones de tipo 
+
+Al igual que hacíamos con los vectores, podemos tranformar el tipo de una variable 
+
+```{r ej2bcsb, echo = FALSE}
+d_gap <- select(gapminder, continent, year, lifeExp)
+```
+
+.codefont[
+```{r ej28bb, echo = TRUE}
+# Exploro tipo de variables
+glimpse(d_gap)
+
+# Variable continente a caracteres y año a factor
+d_gap <- d_gap %>% 
+  mutate(continent = as.character(continent),
+         year = as.factor(year))
+
+glimpse(d_gap)
+```
+]
+
+
+---
+class: inverse, center, middle
+
+# Recodificaciones condicionales
+
+---
+
+## Recodificaciones condicionales
+- Muchas veces transformar los datos implica recodificar una variable de forma condicional, esto es, asignar distintos valores en función de los valores de una o más variables.
+
+- Para esto podemos utilizar las funciones; [ifelse()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/ifelse) (R Base), [mutate()](https://www.rdocumentation.org/packages/dplyr/versions/0.5.0/topics/mutate), [recode()](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/recode) y [case_when()](https://dplyr.tidyverse.org/reference/case_when.html) (Tidyverse)
+
+- Nosotros veremos recodificaciones condicionales con `case_when()` y `mutate()`
+
+
+---
+
+## Recodificaciones condicionales: ifelse
+
+- Igual, es importante que entiendan la estructura básica de un ifelse:
+- ifelse(condición, valor_si_verdadero, valor_si_falso)
+]
+
+.codefont[
+```{r ifelse_0, echo = TRUE}
+# ifelse
+# Crear un vector de números
+numeros <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+# Usar ifelse para clasificar números como "par" o "impar"
+# el operador %% calcula el residuo de una división
+clasificacion <- ifelse(numeros %% 2 == 0, "par", "impar")
+clasificacion # chequeo
+```
+]
+
+.codefont[
+```{r ifelse, echo = TRUE}
+# Crear una columna que clasifique países por esperanza de vida
+gapminder %>% 
+  mutate(categoria_vida = ifelse(lifeExp > 60, "Alta", "Baja")) %>% 
+  select(country, lifeExp, categoria_vida) %>% 
+  head(5)
+```
+]
+---
+
+## Recodificación condicional con case_when y mutate
+
+Podemos crear variables condicionales con `case_when()` del paquete  dplyr. Esencialmente, con `ifelse()` (R Base) podemos lograr lo mismo que con `case_when()` (Tidyverse). `case_when()` puede resultar más sencilla de utilizar al no haber necesidad de anidar la función cuando establecemos múltiples condiciones. 
+
+Cuando trabajmos con dataframes `case_when()` se utiliza dentro de `mutate()`. `case_when()` testea condiciones en orden (esto es importante cuando pasamos condiciones no excluyentes). `case_when()` lista condiciones para las que asigna un valor en caso de que sean verdaderas, y permite pasar múltiples condiciones. `TRUE` refiere a las condiciones no listadas. La estructura de `case_when()` es: 
+
+
+```{r ej28m, eval = FALSE,  echo = TRUE}
+data %>% 
+  mutate(var_nueva = case_when(var_original == "Valor 1" ~ "Valor A",
+                               var_original == "Valor 2" ~ "Valor B",
+                               TRUE ~ "Otros"))
+```
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+
+```{r ej28c_2, echo = TRUE}
+d_gap <- gapminder
+
+# Creemos una variable que indique si el país es Uruguay o no
+d_gap <- d_gap %>% 
+  mutate(uruono = case_when(
+    country == "Uruguay" ~ "Si",
+    TRUE ~ "No")
+    )
+
+table(d_gap$uruono)
+```
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+Podemos establecer varias condiciones fácilmente:
+
+.codefont[
+```{r ej28n2, echo = TRUE}
+d_gap <- gapminder
+
+d_gap <- d_gap %>% 
+  mutate(mercosur = case_when(country == "Uruguay" ~ 1,
+                              country == "Argentina" ~ 1,
+                              country == "Paraguay" ~ 1,
+                              country == "Brazil" ~ 1, 
+                              TRUE ~ 0))
+
+table(d_gap$mercosur)
+```
+]
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+También podríamos usar operadores para simplificar esto:
+
+.codefont[
+```{r ej28f3, echo = TRUE}
+d_gap <- d_gap %>% 
+  mutate(mercosur = case_when(
+  country %in% c("Argentina", "Paraguay", "Brazil", "Uruguay") ~ 1,
+  TRUE ~ 0)
+  ) 
+
+d_gap <- d_gap %>% 
+  mutate(mercosur2 = case_when(
+    country == "Argentina" | country == "Paraguay" |
+      country == "Brazil" | country == "Uruguay" ~ 1,
+    TRUE ~ 0)
+    )
+
+identical(d_gap$mercosur, d_gap$mercosur2)
+```
+]
+
+
+---
+## Recodificación condicional con case_when y mutate
+
+Recodificación con valores numéricos. Supongamos que queremos crear una nueva variable pob_rec, que clasifica a los países en población grande (más de 20 millones), mediana (entre 5 y 20) o pequeña (menos de 5)
+
+.codefont[
+```{r ej28f3sdas, echo = TRUE}
+d_gap <- d_gap %>% 
+  mutate(pob_rec = case_when(
+    pop >= 20000000 ~ "Grande",
+    pop >= 5000000 & pop < 20000000 ~ "Mediana",
+    pop < 5000000 ~ "Pequeña",
+    TRUE ~ "Error")
+  ) 
+
+table(d_gap$pob_rec)
+```
+]
+
+
+---
+
+## Recodificación condicional con case_when y mutate
+
+`case_when()` sirve también para recodificar una variable con condiciones basadas en múltiples variables.
+
+Supongamos que queremos una variable que indique los países-año con expectativa de vida mayor a 75 o pbi per cápita mayor a 20.000
+
+.codefont[
+```{r ej28o, echo = TRUE}
+d_gap <- d_gap %>% 
+  mutate(var1 = case_when(gdpPercap > 20000 ~ 1,
+                          lifeExp > 75 ~ 1,
+                          TRUE ~ 0))
+table(d_gap$var1)
+```
+]
+
+---
+
+## Ejercicio
+
+.content-box-blue[
+*(1) Abran un script nuevo y tomen el dataframe de gapminder (importarlo de la carpeta data o descargarlo desde el paquete gapminder como debajo, y filtrar para la base para quedarnos solamente con las observaciones América y Oceania*
+
+```{r ej28o___2, echo = TRUE}
+library(gapminder)
+gapminder <- gapminder
+```
+
+*(2) En ese mismo dataframe con solamente las observaciones de América y Oceanía seleccionar solamente tres variables: continent, country y lifeExp*
+
+*(3) En ese mismo dataframe, crear una nueva variable que divida la expectativa de vida en 3 categorías: "Alta" (mayor o igual a 75 años); "Media" (mayor o igual a 65 y menor a 75 y "Baja" (menor a 65 años)*
+
+*(4) Asegurarse de hacer los primeros 3 pasos en un mismo pipeline*
+
+*(Extra) convertir la variable creada a factor modificando el mismo código con funciones anidadas*
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Funciones: group_by() y summarise()
+ 
+
+---
+
+## ¿Para qué sirve group_by()
+
+- Agrupa un dataframe por una o más variables.
+
+- Permite realizar operaciones por grupo (ej: sumar, promediar, contar).
+
+- Es útil para análisis segmentados (ej: comparar datos por país, año, categoría).
+
+- Se usa junto con funciones como `summarise()`, `mutate()`, `count()`, etc.
+
+
+---
+
+## ¿Para qué sirve group_by()
+
+
+- Estructura básica:
+
+.codefont[
+
+```{r group, echo = TRUE, eval=FALSE}
+dataframe %>%  
+  group_by(variable) %>%  
+  operacion()  # summarise(), mutate(), count(), etc.
+```
+]
+
+.codefont[
+
+```{r group2, echo = TRUE, eval=FALSE}
+dataframe %>%  
+  group_by(variable1, variable2...) %>%  
+  operacion()  # summarise(), mutate(), count(), etc.
+```
+]
+
+- `group_by()` + `summarise() `→ Resumen estadístico por grupo.
+
+- `group_by()` + `mutate()` → Cálculos dentro de grupos sin colapsar datos.
+
+- `group_by()`+ `filter()` → Subconjuntos condicionales por grupo.
+
+---
+
+## ¿Para qué sirve `summarise()`
+
+
+- Reduce múltiples valores a un solo resumen (como promedios, sumas, conteos).
+
+- Se usa después de `group_by()` para calcular estadísticas por grupo.
+
+- Crea un nuevo dataframe con los resultados agregados.
+
+- Por ejemplo, si quiero saber el promedio de edad de hombres y mujeres: agrupo (`group_by()`) por sexo y aplico el promedio (`mean`) en el `summarise()`
+
+- Estructura básica:
+
+.codefont[
+
+```{r summarise, echo = TRUE, eval=FALSE}
+datos %>%  
+  group_by(variable) %>% #variable por la qeu agrupo  
+  summarise(
+    nombre = función(variable2), #varieble a la que aplico la funcion
+    ...
+  )
+```
+]
+
+---
+
+## Ejemplos: `group_by()` y `summarise()`
+
+- Este ejemplo calcula la expectativa de vida promedio para cada continente. 
+
+.codefont[
+
+```{r summarise_ej1, echo = TRUE, eval=FALSE}
+# Agrupar por continente y calcular el promedio de expectativa de vida
+promedio_vida <- gapminder %>%
+  group_by(continent) %>%
+  summarise(promedio_vida = mean(lifeExp, na.rm = TRUE))
+
+promedio_vida # imprimo
+```
+]
+
+---
+
+## Ejemplos: `group_by()` y `summarise()`
+
+- Este ejemplo calcula la población total de cada continente en el año 2007.
+
+.codefont[
+```{r summarise_ej2, echo = TRUE, eval=FALSE}
+# Filtrar por año 2007, agrupar por continente y calcular la población total
+poblacion_total <- gapminder %>%
+  filter(year == 2007) %>%
+  group_by(continent) %>%
+  summarise(poblacion_total = sum(pop, na.rm = TRUE))
+
+# Mostrar los resultados
+poblacion_total # imprimo
+```
+]
+
+
+---
+
+## Ejemplos: `group_by()` y `summarise()`
+
+- Este ejemplo encuentra el mayor PIB per cápita registrado para cada país.
+
+
+.codefont[
+```{r summarise_ej3, echo = TRUE, eval=FALSE}
+# Agrupar por país y calcular el máximo PIB per cápita
+max_pib_per_capita <- gapminder %>%
+  group_by(country) %>%
+  summarise(max_gdpPercap = max(gdpPercap, na.rm = TRUE))
+
+# Mostrar los resultados
+max_pib_per_capita # imprimo
+```
+]
+
+
+
+---
+
+class: inverse, center, middle
+
+# Tablas cruzadas
+
+---
+## Resumir datos: tablas simples
+
+Con `count()` podemos hacer lo mismo que con `table()`, pero en el contexto del tidyverse. Con un simple `mutate()` podemos transformar la frecuencia simple en proporción o porcentaje
+
+.codefontchico[
+```{r ch9sdasss2, echo = TRUE, message=FALSE, warning=FALSE}
+
+library(rio)
+# carguen el archivo d_gap.csv que está en eva
+d_gap <- import("data/d_gap.csv") 
+
+# Frecuencia simple
+d_gap %>% 
+  count(continent)
+
+# Frecuencia proporción
+d_gap %>% 
+  count(continent) %>% 
+  mutate(per = n/sum(n)*100) %>% # Porcentaje
+  mutate(prop = n/sum(n)) # Proporción
+```
+]
+
+---
+## Resumir datos: tablas cruzadas
+
+Cuando usamos `count()` con dos variables vemos que la salida está en formato largo. Eso nos puede servir para graficar si usamos ggplot2 y para otros paquetes, pero no es como generalmente queremos leer una tabla para interpretarla. 
+
+.codefontchico[
+```{r ch9ssdsdsdas, echo = TRUE}
+# Tabla cruzada en formato largo
+d_gap %>% 
+  count(continent, pob_rec)
+
+```
+]
+
+---
+## Resumir datos: tablas cruzadas
+
+ Para pasar a formato ancho podemos utilizar la función `spread()`. El primer argumento dentro de `spread()` es la variable que queremos que pase a ser columnas y el segundo argumento la variable que contiene los valores.
+
+.codefont[
+```{r ch9ssssdsdsdas, echo = TRUE}
+# Tabla cruzada en formato ancho
+d_gap %>% 
+  count(continent, pob_rec) %>% 
+  spread(pob_rec, n)
+```
+]
+
+---
+## Resumir datos: tablas cruzadas
+
+Cuando analizamos tablas cruzadas, muchas veces queremos ver procentajes en lugar de frecuencias. Para ello podemos transformar la frecuencia en porcentaje.
+
+.codefont[
+```{r ch9sdas2222, echo = TRUE}
+# Porcentaje total
+d_gap %>% 
+  count(continent, pob_rec) %>%
+  mutate(n = n/sum(n)*100) %>% 
+  spread(pob_rec, n)
+```
+]
+
+---
+## Resumir datos: tablas cruzada
+
+Cuando trabajamos con procentajes en tablas cruzadas, tenemos que considerar el total del %. En el ejemplo anterior el porcentaje era sobre el total, muchas veces queremos calcularlo sobre cada fila o cada columna
+
+.codefontchico[
+```{r ch9sdas1111, echo = TRUE}
+# % de paises en cada tamaño de población por continente 
+d_gap %>% 
+  count(continent, pob_rec) %>%
+  mutate(n = n/sum(n)*100, .by = continent) %>% 
+  spread(pob_rec, n)
+
+# % de continente por tamaño de población  
+d_gap %>% 
+  count(continent, pob_rec) %>%
+  mutate(n = n/sum(n)*100, .by = pob_rec) %>% 
+  spread(pob_rec, n)
+```
+]
+
+
+
+---
+class: inverse, center, middle
+
+# Tablas con estadísticas descriptivas
+
+---
+## Resumir datos 
+
+Resumir datos con estadísticos descriptivos es una de las partes fundamentales del análisis de datos. Para ello utilizaremos la función `summarise()` o `summarize()`, muchas veces en conjunto con `group_by()`. 
+
+Escencialmente `summarise()` resume un dataframe en una fila según una estadística especificada. Por ejemplo, calculando la media de una variable
+
+.codefont[
+```{r ch9, echo = TRUE}
+gapminder %>% 
+  summarise(media = mean(lifeExp, na.rm=T))
+
+# Por ahora no hay mucha diferencia con
+mean(gapminder$lifeExp, na.rm = TRUE)
+```
+]
+
+
+---
+## Resumir datos 
+
+Hasta ahora `summarise()` no nos es de gran utilidad, la utilidad de `summarise()`  es su uso conjunto con `group_by()`, para estimar diferentes estadísticas según grupos específicos. 
+
+Cuando utilizamos `group_by()` en un pipeline cambiamos la unidad de análisis desde todo el dataframe a niveles de una variable. Retomando el ejemplo, podemos ver el promedio de expectativa de vida según año:
+
+.codefont[
+```{r ch10, echo = TRUE}
+gapminder %>% 
+  group_by(year) %>% 
+  summarise(media = mean(lifeExp, na.rm = T)) 
+
+```
+]
+
+
+---
+## Resumir datos 
+
+Algunas de las operaciones más utilizadas para resumir datos:
+
+- `mean()`: media 
+- `median()`: mediana
+- `sd()`: desvío estandar
+- `sum()`: suma
+- `n()`: número de observaciones
+- `n_distinct()`: número de valores únicos
+- `min()` y `max()`: mínimo y máximo
+- `first()`: primer valor
+
+
+---
+## Resumir datos
+
+Podemos utilizar más de una variable dentro de `group_by()`. Por ejemplo, calculemos la media de expectativa de vida por año comparando America y Europa para 1997, 2002 y 2007:
+
+.codefont[
+```{r ch12, echo = TRUE, warning=FALSE}
+resumen_1 <- gapminder %>% 
+  filter(continent %in% c("Americas", "Europe")) %>% 
+  filter(year >= 1997) %>% 
+  group_by(continent, year) %>% 
+  summarise(media = mean(lifeExp, na.rm = TRUE)) 
+resumen_1
+```
+]
+
+---
+## Resumir datos
+
+Una de las grandes ventajas de `summarise()` es que podemos resumir muy fácilmente varias estadísticas en un solo dataframe. 
+
+.codefont[
+```{r ch13, echo = TRUE}
+resumen_2 <- gapminder %>% 
+  filter(continent %in% c("Americas", "Europe")) %>%
+  filter(year == 2007) %>%
+  group_by(continent) %>% 
+  summarise(media = mean(gdpPercap),
+            desvio = sd(gdpPercap),
+            suma = sum(gdpPercap),
+            max = max(gdpPercap),
+            min = min(gdpPercap),
+            paises = n()) 
+
+resumen_2
+```
+]
