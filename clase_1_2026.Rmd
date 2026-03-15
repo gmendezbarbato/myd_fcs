@@ -51,6 +51,17 @@ use_extra_styles(
 ```
 # Introducción a R y RStudio
 
+
+---
+## Antes de arrancar
+
+.center[
+```{r form, out.width = "500px"}
+knitr::include_graphics("ima/form.jpeg")
+```
+]
+
+
 ---
 ## Introducción a R y RStudio
 
